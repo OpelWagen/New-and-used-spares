@@ -5,7 +5,6 @@
 	<base href="<?php echo base_url();?>" />
 	<title><?php echo $this->config->item('company') . ' | ' . $this->lang->line('common_powered_by') . ' OSPOS ' . $this->config->item('application_version') ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="<?php echo 'dist/bootswatch/' . (empty($this->config->item('theme')) ? 'flatly' : $this->config->item('theme')) . '/bootstrap.min.css' ?>"/>
 
 	<?php if ($this->input->cookie('debug') == 'true' || $this->input->get('debug') == 'true') : ?>
 		<!-- bower:css -->
@@ -82,6 +81,7 @@
         <link rel="stylesheet" type="text/css" href="css/editor-style.css"/>
         <script type="text/javascript" src="js/editor-script.js"></script>
 	<?php endif; ?>
+	<link rel="stylesheet" type="text/css" href="<?php echo 'dist/bootswatch/' . (empty($this->config->item('theme')) ? 'flatly' : $this->config->item('theme')) . '/bootstrap-custom.css' ?>"/>
 
 	<?php $this->load->view('partial/header_js'); ?>
 	<?php $this->load->view('partial/lang_lines'); ?>
@@ -123,7 +123,7 @@
 						<span class="icon-bar"></span>
 					</button>
 
-					<a class="navbar-brand hidden-sm" href="<?php echo site_url(); ?>">OSPOS</a>
+					<a class="navbar-brand hidden-sm" href="<?php echo site_url(); ?>">TN19</a>
 				</div>
 
 				<div class="navbar-collapse collapse">
