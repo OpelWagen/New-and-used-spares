@@ -1,4 +1,5 @@
 Install OsPOS
+
 Step 1:
 Import database/database.sql
 
