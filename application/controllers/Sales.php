@@ -493,7 +493,36 @@ class Sales extends Secure_Controller
 		$data['warning'] = $this->sale_lib->out_of_stock($this->sale_lib->get_item_id($item_id), $item_location);
 
 		$this->_reload($data);
-	}
+    }
+    
+    public function set_price_all_items(){
+        $data = array();
+        $items = $this->sale_lib->get_cart();
+        $payment_type =  $this->input->post('payment_type');
+        foreach($items as $key => $item)
+		{
+            $item_source = $this->Item->get_info($item['item_id']);
+            $price = parse_decimals($item_source->unit_price);
+            if( $payment_type == $this->lang->line('sales_due') ){
+                $price  = parse_decimals((float)$item_source->unit_price + ((float)$item_source->unit_price  * 0.1));
+            }
+            $description = $item['description'];
+            $serialnumber = $item['serialnumber'];
+            $quantity = parse_decimals($item['quantity']);
+            $discount = parse_decimals($item['discount']);
+            $discount_type = $item['discount_type'];
+            $discounted_total = $item['discounted_total'];
+            $items[$key]['price'] = $price;
+            $items[$key]['total'] = $this->sale_lib->get_item_total($quantity, $price, $discount, $line['discount_type']);
+            $items[$key]['discounted_total'] = $this->sale_lib->get_item_total($quantity, $price, $discount, $line['discount_type'], TRUE);
+        }
+        $this->sale_lib->set_payment_type($payment_type);
+        $this->sale_lib->set_cart($items);
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'url' => site_url('sales')
+        )); 
+    }
 
 	public function delete_item($item_number)
 	{

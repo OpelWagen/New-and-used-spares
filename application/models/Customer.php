@@ -108,8 +108,11 @@ class Customer extends Person
 					SUM(sales_items.quantity_purchased) AS quantity
 				FROM ' . $this->db->dbprefix('sales') . ' AS sales
 				INNER JOIN ' . $this->db->dbprefix('sales_items') . ' AS sales_items
-					ON sales_items.sale_id = sales.sale_id
-				WHERE sales.customer_id = ' . $this->db->escape($customer_id) . '
+                    ON sales_items.sale_id = sales.sale_id
+                INNER JOIN ' . $this->db->dbprefix('sales_payments') . ' AS sales_payments
+                    ON sales_payments.sale_id = sales.sale_id
+                WHERE sales.customer_id = ' . $this->db->escape($customer_id) . '
+                    AND sales_payments.payment_type != \'Trả chậm\'
 				GROUP BY sale_id
 			)'
 		);

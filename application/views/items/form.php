@@ -31,6 +31,19 @@
 			</div>
 		</div>
 
+        <div class="form-group form-group-sm">
+			<?php echo form_label('SKU', 'SKU', array('class'=>'control-label col-xs-3')); ?>
+			<div class='col-xs-8'>
+                <?php echo form_input(array(
+                        'name'=>'sku',
+                        'id'=>'sku',
+                        'class'=>'form-control input-sm',
+                        'value'=>$item_info->sku)
+                        );?>  
+				
+			</div>
+		</div>
+
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_category'), 'category', array('class'=>'required control-label col-xs-3')); ?>
 			<div class='col-xs-8'>

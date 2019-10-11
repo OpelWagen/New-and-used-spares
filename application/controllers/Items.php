@@ -488,7 +488,8 @@ class Items extends Secure_Controller
 		$item_data = array(
 			'name' => $this->input->post('name'),
 			'description' => $this->input->post('description'),
-			'category' => $this->input->post('category'),
+            'category' => $this->input->post('category'),
+            'sku' => $this->input->post('sku'),
 			'item_type' => $item_type,
 			'stock_type' => $this->input->post('stock_type') == NULL ? HAS_STOCK : $this->input->post('stock_type'),
 			'supplier_id' => $this->input->post('supplier_id') == '' ? NULL : $this->input->post('supplier_id'),

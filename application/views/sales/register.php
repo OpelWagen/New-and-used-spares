@@ -110,7 +110,7 @@ if(isset($success))
 				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
-				<th style="width: 15%;"><?php echo $this->lang->line('sales_discount'); ?></th>
+				<th style="width: 15%;" class="hidden"><?php echo $this->lang->line('sales_discount'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_total'); ?></th>
 				<th style="width: 5%;"><?php echo $this->lang->line('sales_update'); ?></th>
 			</tr>
@@ -167,7 +167,9 @@ if(isset($success))
 							if($items_module_allowed)
 							{
 							?>
-								<td><?php echo form_input(array('name'=>'price', 'class'=>'form-control input-sm', 'value'=>to_currency_no_money($item['price']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));?></td>
+                                <td><?php 
+                                echo $item['price'] . form_input(array('name'=>'price', 'class'=>'form-control input-sm hidden', 'value'=>to_currency_no_money($item['price']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); 
+                                ?></td>
 							<?php
 							}
 							else
@@ -195,7 +197,7 @@ if(isset($success))
 								?>
 							</td>
 
-							<td>
+							<td class="hidden">
 								<div class="input-group">
 									<?php echo form_input(array('name'=>'discount', 'class'=>'form-control input-sm', 'value'=>$item['discount'], 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
 									<span class="input-group-btn">
@@ -473,25 +475,7 @@ if(isset($success))
 							</tr>
 						</table>
 					<?php echo form_close(); ?>
-						<?php
-						$payment_type = $this->input->post('payment_type');							
-						// Only show this part if the payment cover the total and in sale or return mode
-
-						if($pos_mode == '1' && $payment_type != $this->lang->line('sales_due') && !isset($customer))
-						{
-						?>
-						<div class='btn btn-sm btn-success pull-right' id='finish_sale_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
-						<?php
-						}
-						?>
-						<?php							
-						if($pos_mode == '1' && $payment_type = $this->lang->line('sales_due') && isset($customer))
-						{
-						?>
-						<div class='btn btn-sm btn-success pull-right' id='finish_sale_button'  tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
-						<?php
-						}
-						?>
+						
 				<?php
 				}
 				else
@@ -514,12 +498,10 @@ if(isset($success))
 							</tr>
 						</table>
 					<?php echo form_close(); ?>
-
-					<div class='btn btn-sm btn-success pull-right' id='add_payment_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-credit-card">&nbsp</span><?php echo $this->lang->line('sales_add_payment'); ?></div>
 				<?php
 				}
 				?>
-
+                <div class='btn btn-sm btn-default pull-right' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
 				<?php
 				// Only show this part if there is at least one payment entered.
 				if(count($payments) > 0)
@@ -556,18 +538,42 @@ if(isset($success))
 
 			<?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
 				<div class="form-group" id="buttons_sale">
-					<div class='btn btn-sm btn-default pull-left' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
-					<?php
+                    <?php
 					// Only show this part if the payment covers the total
 					if(!$pos_mode && isset($customer))
 					{
 					?>
-						<div class='btn btn-sm btn-success' id='finish_invoice_quote_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $mode_label; ?></div>
+						<div class='btn btn-sm btn-success pull-right' id='finish_invoice_quote_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $mode_label; ?></div>
 					<?php
 					}
 					?>
 
-					<div class='btn btn-sm btn-danger pull-right' id='cancel_sale_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('sales_cancel_sale'); ?></div>
+					<div class='btn btn-sm btn-danger pull-left' id='cancel_sale_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('sales_cancel_sale'); ?></div>
+                    <?php
+                    if(!$payments_cover_total) :
+                    ?>
+                    <div class='btn btn-sm btn-success pull-right' id='add_payment_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-credit-card">&nbsp</span><?php echo $this->lang->line('sales_add_payment'); ?></div>
+                    <?php else : ?>
+                    <?php
+                        $payment_type = $this->input->post('payment_type');							
+                        // Only show this part if the payment cover the total and in sale or return mode
+
+                        if($pos_mode == '1' && $payment_type != $this->lang->line('sales_due') && !isset($customer))
+                        {
+                        ?>
+                        <div class='btn btn-sm btn-success pull-right' id='finish_sale_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
+                        <?php
+                        }
+                        ?>
+                        <?php							
+                        if($pos_mode == '1' && $payment_type = $this->lang->line('sales_due') && isset($customer))
+                        {
+                        ?>
+                        <div class='btn btn-sm btn-success pull-right' id='finish_sale_button'  tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
+                        <?php
+                        }
+                    ?>
+                    <?php endif; ?>
 				</div>
 			<?php echo form_close(); ?>
 
@@ -855,7 +861,10 @@ $(document).ready(function()
 		$('#add_payment_form').submit();
 	});
 
-	$("#payment_types").change(check_payment_type).ready(check_payment_type);
+	$("#payment_types").change(function(){
+        check_payment_type();
+        change_payment_types($(this));
+    }).ready(check_payment_type);
 
 	$("#cart_contents input").keypress(function(event)
 	{
@@ -945,7 +954,7 @@ function check_payment_type()
 		$(".giftcard-input").attr('disabled', true);
 		$(".non-giftcard-input").attr('disabled', false);
 	}
-	else
+	else  
 	{
 		$("#sale_total").html("<?php echo to_currency($non_cash_total); ?>");
 		$("#sale_amount_due").html("<?php echo to_currency($non_cash_amount_due); ?>");
@@ -954,6 +963,15 @@ function check_payment_type()
 		$(".giftcard-input").attr('disabled', true);
 		$(".non-giftcard-input").attr('disabled', false);
 	}
+}
+
+function change_payment_types(_this){
+    var payment_type = _this.val();
+    $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'payment_type': payment_type })
+        .done(function(response) {
+            location.href = response.url;
+        });
+    
 }
 </script>
 

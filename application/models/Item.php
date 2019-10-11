@@ -178,7 +178,8 @@ class Item extends CI_Model
 		if(!empty($search))
 		{
 			$this->db->group_start();
-				$this->db->like('name', $search);
+                $this->db->like('name', $search);
+                $this->db->or_like('items.sku', $search);
 				$this->db->or_like('item_number', $search);
 				$this->db->or_like('items.item_id', $search);
 				$this->db->or_like('company_name', $search);
@@ -591,6 +592,17 @@ class Item extends CI_Model
 		$this->db->where_in('item_type', $non_kit); // standard, exclude kit items since kits will be picked up later
 		$this->db->like('item_number', $search);
 		$this->db->order_by('item_number', 'asc');
+		foreach($this->db->get()->result() as $row)
+		{
+			$suggestions[] = array('value' => $row->item_id, 'label' => $this->get_search_suggestion_label($row));
+        }
+        
+        $this->db->select($this->get_search_suggestion_format('item_id, item_number, pack_name'));
+		$this->db->from('items');
+		$this->db->where('deleted', $filters['is_deleted']);
+		$this->db->where_in('item_type', $non_kit); // standard, exclude kit items since kits will be picked up later
+		$this->db->like('sku', $search);
+		$this->db->order_by('sku', 'asc');
 		foreach($this->db->get()->result() as $row)
 		{
 			$suggestions[] = array('value' => $row->item_id, 'label' => $this->get_search_suggestion_label($row));
