@@ -108,7 +108,7 @@ if(isset($success))
 				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
-				<th style="width: 15%;"><?php echo $this->lang->line('sales_discount'); ?></th>
+				<!--<th style="width: 15%;"><?php echo $this->lang->line('sales_discount'); ?></th>-->
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_total'); ?></th>
 				<th style="width: 5%;"><?php echo $this->lang->line('sales_update'); ?></th>
 			</tr>
@@ -188,19 +188,19 @@ if(isset($success))
 								}
 								else
 								{
-									echo form_input(array('name'=>'quantity', 'class'=>'form-control input-sm', 'value'=>to_quantity_decimals($item['quantity']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));
+									echo form_input(array('type'=>'number', 'name'=>'quantity', 'class'=>'form-control input-sm', 'value'=>to_quantity_decimals($item['quantity']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));
 								}
 								?>
 							</td>
 
-							<td>
+							<!--<td>
 								<div class="input-group">
 									<?php echo form_input(array('name'=>'discount', 'class'=>'form-control input-sm', 'value'=>$item['discount'], 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
 									<span class="input-group-btn">
 										<?php echo form_checkbox(array('id'=>'discount_toggle', 'name'=>'discount_toggle', 'value'=>1, 'data-toggle'=>"toggle",'data-size'=>'small', 'data-onstyle'=>'success', 'data-on'=>'<b>'.$this->config->item('currency_symbol').'</b>', 'data-off'=>'<b>%</b>', 'data-line'=>$line, 'checked'=>$item['discount_type'])); ?>
 									</span>
 								</div> 
-							</td>
+							</td>-->
 
 							<td>
 								<?php
