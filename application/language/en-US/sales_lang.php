@@ -86,6 +86,7 @@ $lang["sales_invoice_update"] = "Recount";
 $lang["sales_item_insufficient_of_stock"] = "Item has insufficient stock.";
 $lang["sales_item_name"] = "Item Name";
 $lang["sales_item_number"] = "Item #";
+$lang["sales_item_number_instock"] = "In stock";
 $lang["sales_item_out_of_stock"] = "Item is out of stock.";
 $lang["sales_mode"] = "Register Mode";
 $lang["sales_must_enter_numeric"] = "Amount Tendered must be a number.";

@@ -104,7 +104,8 @@ if(isset($success))
 		<thead>
 			<tr>
 				<th style="width: 5%;"><?php echo $this->lang->line('common_delete'); ?></th>
-				<th style="width: 15%;"><?php echo $this->lang->line('sales_item_number'); ?></th>
+				<!--<th style="width: 15%;"><?php echo $this->lang->line('sales_item_number'); ?></th>-->
+				<th style="width: 15%;"><?php echo $this->lang->line('sales_item_number_instock'); ?></th>
 				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
@@ -139,11 +140,14 @@ if(isset($success))
 								<?php echo form_hidden('location', $item['item_location']); ?>
 								<?php echo form_input(array('type'=>'hidden', 'name'=>'item_id', 'value'=>$item['item_id'])); ?>
 							</td>
+							<td>
+									<?php echo ($item['in_stock'] != 0) ?  to_quantity_decimals($item['in_stock']) : '<span class = "btn-danger btn-sm">' . $this->lang->line('sales_item_out_of_stock') . '</span>'; ?>
+							</td>
 							<?php
 							if($item['item_type'] == ITEM_TEMP)
 							{
 							?>
-								<td><?php echo form_input(array('name'=>'item_number', 'id'=>'item_number','class'=>'form-control input-sm', 'value'=>$item['item_number'], 'tabindex'=>++$tabindex));?></td>
+								<!--<td><?php //echo form_input(array('name'=>'item_number', 'id'=>'item_number','class'=>'form-control input-sm', 'value'=>$item['item_number'], 'tabindex'=>++$tabindex));?></td>-->
 								<td style="align: center;">
 									<?php echo form_input(array('name'=>'name','id'=>'name', 'class'=>'form-control input-sm', 'value'=>$item['name'], 'tabindex'=>++$tabindex));?>
 								</td>
@@ -152,11 +156,11 @@ if(isset($success))
 							else
 							{
 							?>
-								<td><?php echo $item['item_number']; ?></td>
+								<!--<td><?php echo $item['item_number']; ?></td>-->
 								<td style="align: center;">
 									<?php echo $item['name'] . ' '. implode(' ', array($item['attribute_values'], $item['attribute_dtvalues'])); ?>
 									<br/>
-									<?php if ($item['stock_type'] == '0'): echo '[' . to_quantity_decimals($item['in_stock']) . ' in ' . $item['stock_name'] . ']'; endif; ?>
+									<?php //if ($item['stock_type'] == '0'): echo '[' . to_quantity_decimals($item['in_stock']) . ' in ' . $item['stock_name'] . ']'; endif; ?>
 								</td>
 							<?php
 							}
@@ -165,7 +169,10 @@ if(isset($success))
 							if($items_module_allowed)
 							{
 							?>
-								<td><?php echo form_input(array('name'=>'price', 'class'=>'form-control input-sm', 'value'=>to_currency_no_money($item['price']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));?></td>
+								<td>
+								<?php echo form_input(array('name'=>'price', 'class'=>'form-control input-sm', 'value'=>to_currency_no_money($item['price']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));?>
+								</td>
+									
 							<?php
 							}
 							else
@@ -191,13 +198,15 @@ if(isset($success))
 									echo form_input(array('type'=>'number', 'name'=>'quantity', 'class'=>'form-control input-sm', 'value'=>to_quantity_decimals($item['quantity']), 'tabindex'=>++$tabindex, 'onClick'=>'this.select();'));
 								}
 								?>
+								<?php echo form_input(array('type'=>'hidden','name'=>'discount', 'class'=>'form-control input-sm', 'value'=>$item['discount'], 'tabindex'=>++$tabindex )); ?>
+								<?php echo form_input(array('type'=>'hidden','name'=>'discount_toggle', 'class'=>'form-control input-sm', 'data-line'=>$line,'value'=>1)); ?>
 							</td>
 
 							<!--<td>
 								<div class="input-group">
-									<?php echo form_input(array('name'=>'discount', 'class'=>'form-control input-sm', 'value'=>$item['discount'], 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
+									<?php //echo form_input(array('name'=>'discount', 'class'=>'form-control input-sm', 'value'=>$item['discount'], 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
 									<span class="input-group-btn">
-										<?php echo form_checkbox(array('id'=>'discount_toggle', 'name'=>'discount_toggle', 'value'=>1, 'data-toggle'=>"toggle",'data-size'=>'small', 'data-onstyle'=>'success', 'data-on'=>'<b>'.$this->config->item('currency_symbol').'</b>', 'data-off'=>'<b>%</b>', 'data-line'=>$line, 'checked'=>$item['discount_type'])); ?>
+										<?php //echo form_checkbox(array('id'=>'discount_toggle', 'name'=>'discount_toggle', 'value'=>1, 'data-toggle'=>"toggle",'data-size'=>'small', 'data-onstyle'=>'success', 'data-on'=>'<b>'.$this->config->item('currency_symbol').'</b>', 'data-off'=>'<b>%</b>', 'data-line'=>$line, 'checked'=>$item['discount_type'])); ?>
 									</span>
 								</div> 
 							</td>-->
@@ -217,78 +226,7 @@ if(isset($success))
 							
 							<td><a href="javascript:document.getElementById('<?php echo 'cart_'.$line ?>').submit();" title=<?php echo $this->lang->line('sales_update')?> ><span class="glyphicon glyphicon-refresh"></span></a></td>
 							</tr>
-							<tr>
-							<?php
-							if($item['item_type'] == ITEM_TEMP)
-							{
-							?>
-								<td><?php echo form_input(array('type'=>'hidden', 'name'=>'item_id', 'value'=>$item['item_id'])); ?></td>
-								<td style="align: center;" colspan="6">
-									<?php echo form_input(array('name'=>'item_description', 'id'=>'item_description', 'class'=>'form-control input-sm', 'value'=>$item['description'], 'tabindex'=>++$tabindex));?>
-								</td>
-								<td> </td>
-							<?php
-							}
-							else
-							{
-							?>
-								<td> </td>
-								<?php
-								if($item['allow_alt_description']==1)
-								{
-									?>
-									<td style="color: #2F4F4F;"><?php echo $this->lang->line('sales_description_abbrv');?></td>
-									<?php
-								}
-								?>
-
-								<td colspan='2' style="text-align: left;">
-									<?php
-									if($item['allow_alt_description']==1)
-									{
-										echo form_input(array('name'=>'description', 'class'=>'form-control input-sm', 'value'=>$item['description'], 'onClick'=>'this.select();'));
-									}
-									else
-									{
-										if($item['description']!='')
-										{
-											echo $item['description'];
-											echo form_hidden('description', $item['description']);
-										}
-										else
-										{
-											echo $this->lang->line('sales_no_description');
-											echo form_hidden('description','');
-										}
-									}
-									?>
-								</td>
-								<td>&nbsp;</td>
-								<td style="color: #2F4F4F;">
-									<?php
-									if($item['is_serialized']==1)
-									{
-										echo $this->lang->line('sales_serial');
-									}
-									?>
-								</td>
-								<td colspan='4' style="text-align: left;">
-									<?php
-									if($item['is_serialized']==1)
-									{
-										echo form_input(array('name'=>'serialnumber', 'class'=>'form-control input-sm', 'value'=>$item['serialnumber'], 'onClick'=>'this.select();'));
-									}
-									else
-									{
-										echo form_hidden('serialnumber', '');
-									}
-									?>
-								</td>
-							<?php
-							}
-							?>
-
-						</tr>
+							
 					<?php echo form_close(); ?>
 			<?php
 				}
