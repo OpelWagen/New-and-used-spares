@@ -502,7 +502,7 @@ class Sales extends Secure_Controller
         foreach($items as $key => $item)
 		{
             $item_source = $this->Item->get_info($item['item_id']);
-            $price = parse_decimals($item_source->unit_price);
+            $price = (float)$item_source->unit_price;
             if( $payment_type == $this->lang->line('sales_due') ){
                 $price  = parse_decimals((float)$item_source->unit_price + ((float)$item_source->unit_price  * 0.1));
             }
@@ -520,7 +520,7 @@ class Sales extends Secure_Controller
         $this->sale_lib->set_cart($items);
         header('Content-Type: application/json');
         echo json_encode(array(
-            'url' => site_url('sales')
+            'url' => site_url('sales'),
         )); 
     }
 
