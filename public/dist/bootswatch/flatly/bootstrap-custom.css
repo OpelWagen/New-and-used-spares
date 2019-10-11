@@ -6922,3 +6922,15 @@ a.list-group-item-danger.active:focus {
 .popover {
   color: #2c3e50;
 }
+.wrapper > .navbar ul.navbar-right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+} 
+.wrapper > .navbar ul.navbar-right a{
+    min-height: 110px;
+}
+.wrapper > .navbar ul.navbar-right li.active a{
+    border: 5px solid #fff;
+}

@@ -32,7 +32,7 @@
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="customer_basic_info">
 			<fieldset>
-				<div class="form-group form-group-sm">
+				<div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_consent'), 'consent', array('class' => 'required control-label col-xs-3')); ?>
 					<div class='col-xs-1'>
 						<?php echo form_checkbox('consent', '1', $person_info->consent == '' ? (boolean)!$this->config->item('enforce_privacy') : (boolean)$person_info->consent); ?>
@@ -41,7 +41,7 @@
 
 				<?php $this->load->view("people/form_basic_info"); ?>
 				
-				<div class="form-group form-group-sm">
+				<div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_discount_type'), 'discount_type', array('class'=>'control-label col-xs-3')); ?>
 					<div class="col-xs-8">
 						<label class="radio-inline">
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 
-				<div class="form-group form-group-sm">
+				<div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_discount'), 'discount', array('class' => 'control-label col-xs-3')); ?>
 					<div class='col-xs-3'>
 						<div class="input-group input-group-sm">
@@ -77,21 +77,9 @@
 									); ?>
 						</div>
 					</div>	
-				</div>
-
-				<div class="form-group form-group-sm">
-					<?php echo form_label($this->lang->line('customers_company_name'), 'company_name', array('class' => 'control-label col-xs-3')); ?>
-					<div class='col-xs-8'>
-						<?php echo form_input(array(
-								'name'=>'company_name',
-								'id'=>'company_name',
-								'class'=>'form-control input-sm',
-								'value'=>$person_info->company_name)
-								); ?>
-					</div>
-				</div>
-
-				<div class="form-group form-group-sm">
+				</div> 
+                
+                <div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_account_number'), 'account_number', array('class' => 'control-label col-xs-3')); ?>
 					<div class='col-xs-4'>
 						<?php echo form_input(array(
@@ -103,7 +91,7 @@
 					</div>
 				</div>
 
-				<div class="form-group form-group-sm">
+				<div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_tax_id'), 'tax_id', array('class' => 'control-label col-xs-3')); ?>
 					<div class='col-xs-4'>
 						<?php echo form_input(array(
@@ -116,14 +104,14 @@
 				</div>
 
 				<?php if($this->config->item('customer_reward_enable') == TRUE): ?>
-					<div class="form-group form-group-sm">
+					<div class="form-group form-group-sm hidden">
 						<?php echo form_label($this->lang->line('rewards_package'), 'rewards', array('class'=>'control-label col-xs-3')); ?>
 						<div class='col-xs-8'>
 							<?php echo form_dropdown('package_id', $packages, $selected_package, array('class'=>'form-control')); ?>
 						</div>
 					</div>
 
-					<div class="form-group form-group-sm">
+					<div class="form-group form-group-sm hidden">
 						<?php echo form_label($this->lang->line('customers_available_points'), 'available_points', array('class' => 'control-label col-xs-3')); ?>
 						<div class='col-xs-4'>
 							<?php echo form_input(array(
@@ -137,13 +125,13 @@
 					</div>
 				<?php endif; ?>
 
-				<div class="form-group form-group-sm">
+				<div class="form-group form-group-sm hidden">
 					<?php echo form_label($this->lang->line('customers_taxable'), 'taxable', array('class' => 'control-label col-xs-3')); ?>
 					<div class='col-xs-1'>
 						<?php echo form_checkbox('taxable', '1', $person_info->taxable == '' ? TRUE : (boolean)$person_info->taxable); ?>
 					</div>
 				</div>
-
+                
 				<?php
 				if($use_destination_based_tax)
 				{
@@ -488,7 +476,7 @@ $(document).ready(function()
 		rules:
 		{
 			first_name: 'required',
-			last_name: 'required',
+            //last_name: 'required',
 			consent: 'required',
 			email:
 			{
@@ -519,8 +507,8 @@ $(document).ready(function()
 		messages:
 		{
 			first_name: "<?php echo $this->lang->line('common_first_name_required'); ?>",
-			last_name: "<?php echo $this->lang->line('common_last_name_required'); ?>",
-			consent: "<?php echo $this->lang->line('customers_consent_required'); ?>",
+			//last_name: "<?php echo $this->lang->line('common_last_name_required'); ?>",
+            consent: "<?php echo $this->lang->line('customers_consent_required'); ?>",
 			email: "<?php echo $this->lang->line('customers_email_duplicate'); ?>",
 			account_number: "<?php echo $this->lang->line('customers_account_number_duplicate'); ?>"
 		}

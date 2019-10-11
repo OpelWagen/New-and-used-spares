@@ -10,7 +10,7 @@
 	</div>
 </div>
 
-<div class="form-group form-group-sm">	
+<div class="form-group form-group-sm hidden">	
 	<?php echo form_label($this->lang->line('common_last_name'), 'last_name', array('class'=>'required control-label col-xs-3')); ?>
 	<div class='col-xs-8'>
 		<?php echo form_input(array(
@@ -47,7 +47,19 @@
 	</div>
 </div>
 
-<div class="form-group form-group-sm">	
+<div class="form-group form-group-sm">
+    <?php echo form_label($this->lang->line('customers_company_name'), 'company_name', array('class' => 'control-label col-xs-3')); ?>
+    <div class='col-xs-8'>
+        <?php echo form_input(array(
+                'name'=>'company_name',
+                'id'=>'company_name',
+                'class'=>'form-control input-sm',
+                'value'=>$person_info->company_name)
+                ); ?>
+    </div>
+</div> 
+
+<div class="form-group form-group-sm hidden">	
 	<?php echo form_label($this->lang->line('common_email'), 'email', array('class'=>'control-label col-xs-3')); ?>
 	<div class='col-xs-8'>
 		<div class="input-group">
@@ -57,21 +69,6 @@
 					'id'=>'email',
 					'class'=>'form-control input-sm',
 					'value'=>$person_info->email)
-					);?>
-		</div>
-	</div>
-</div>
-
-<div class="form-group form-group-sm">	
-	<?php echo form_label($this->lang->line('common_phone_number'), 'phone_number', array('class'=>'control-label col-xs-3')); ?>
-	<div class='col-xs-8'>
-		<div class="input-group">
-			<span class="input-group-addon input-sm"><span class="glyphicon glyphicon-phone-alt"></span></span>
-			<?php echo form_input(array(
-					'name'=>'phone_number',
-					'id'=>'phone_number',
-					'class'=>'form-control input-sm',
-					'value'=>$person_info->phone_number)
 					);?>
 		</div>
 	</div>
@@ -90,6 +87,23 @@
 </div>
 
 <div class="form-group form-group-sm">	
+	<?php echo form_label($this->lang->line('common_phone_number'), 'phone_number', array('class'=>'control-label col-xs-3')); ?>
+	<div class='col-xs-8'>
+		<div class="input-group">
+			<span class="input-group-addon input-sm"><span class="glyphicon glyphicon-phone-alt"></span></span>
+			<?php echo form_input(array(
+					'name'=>'phone_number',
+					'id'=>'phone_number',
+					'class'=>'form-control input-sm',
+					'value'=>$person_info->phone_number)
+					);?>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="form-group form-group-sm hidden">	
 	<?php echo form_label($this->lang->line('common_address_2'), 'address_2', array('class'=>'control-label col-xs-3')); ?>
 	<div class='col-xs-8'>
 		<?php echo form_input(array(
@@ -125,7 +139,7 @@
 	</div>
 </div>
 
-<div class="form-group form-group-sm">	
+<div class="form-group form-group-sm hidden">	
 	<?php echo form_label($this->lang->line('common_zip'), 'zip', array('class'=>'control-label col-xs-3')); ?>
 	<div class='col-xs-8'>
 		<?php echo form_input(array(
@@ -137,7 +151,7 @@
 	</div>
 </div>
 
-<div class="form-group form-group-sm">	
+<div class="form-group form-group-sm hidden hidden">	
 	<?php echo form_label($this->lang->line('common_country'), 'country', array('class'=>'control-label col-xs-3')); ?>
 	<div class='col-xs-8'>
 		<?php echo form_input(array(

@@ -46,13 +46,13 @@
 			</div>
 		</div>
 
-		<div id="attributes">
+		<div id="attributes" class="hidden">
 			<script type="text/javascript">
 				$('#attributes').load('<?php echo site_url("items/attributes/$item_info->item_id");?>');
 			</script>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_stock_type'), 'stock_type', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3')); ?>
 			<div class="col-xs-8">
 				<label class="radio-inline">
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_type'), 'item_type', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3')); ?>
 			<div class="col-xs-8">
 				<label class="radio-inline">
@@ -181,7 +181,7 @@
 		</div>
 
 		<?php if(!$use_destination_based_tax) { ?>
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_tax_1'), 'tax_percent_1', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-4'>
 				<?php echo form_input(array(
@@ -204,7 +204,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_tax_2'), 'tax_percent_2', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-4'>
 				<?php echo form_input(array(
@@ -230,7 +230,7 @@
 		<?php } ?>
 
 		<?php if($use_destination_based_tax): ?>
-			<div class="form-group form-group-sm">
+			<div class="form-group form-group-sm hidden">
 				<?php echo form_label($this->lang->line('taxes_tax_category'), 'tax_category', array('class'=>'control-label col-xs-3')); ?>
 				<div class='col-xs-8'>
 					<div class="input-group input-group-sm">
@@ -249,7 +249,7 @@
 
 		<?php if($include_hsn): ?>
 
-			<div class="form-group form-group-sm">
+			<div class="form-group form-group-sm hidden">
 				<?php echo form_label($this->lang->line('items_hsn_code'), 'category', array('class'=>'control-label col-xs-3')); ?>
 				<div class='col-xs-8'>
 					<div class="input-group">
@@ -319,7 +319,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_image'), 'items_image', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-8'>
 				<div class="fileinput <?php echo $logo_exists ? 'fileinput-exists' : 'fileinput-new'; ?>" data-provides="fileinput">
@@ -341,7 +341,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_allow_alt_description'), 'allow_alt_description', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-1'>
 				<?php echo form_checkbox(array(
@@ -353,7 +353,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
+		<div class="form-group form-group-sm hidden">
 			<?php echo form_label($this->lang->line('items_is_serialized'), 'is_serialized', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-1'>
 				<?php echo form_checkbox(array(

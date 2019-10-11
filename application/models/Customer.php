@@ -190,7 +190,7 @@ class Customer extends Person
 
 		if(parent::save($person_data, $customer_id))
 		{
-			if(!$customer_id || !$this->exists($customer_id))
+            if(!$customer_id || !$this->exists($customer_id))
 			{
 				$customer_data['person_id'] = $person_data['person_id'];
 				$success = $this->db->insert('customers', $customer_data);
@@ -199,12 +199,13 @@ class Customer extends Person
 			{
 				$this->db->where('person_id', $customer_id);
 				$success = $this->db->update('customers', $customer_data);
-			}
+            }
 		}
 
 		$this->db->trans_complete();
 
-		$success &= $this->db->trans_status();
+        $success &= $this->db->trans_status();
+        
 
 		return $success;
 	}

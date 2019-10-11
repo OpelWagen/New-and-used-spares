@@ -166,7 +166,7 @@ class Customers extends Persons
 		}
 
 		// retrieve the info from Mailchimp only if there is an email address assigned
-		if(!empty($info->email))
+		/*if(!empty($info->email))
 		{
 			// collect mailchimp customer info
 			if(($mailchimp_info = $this->mailchimp_lib->getMemberInfo($this->_list_id, $info->email)) !== FALSE)
@@ -218,8 +218,7 @@ class Customers extends Persons
 					}
 				}
 			}
-		}
-
+		}*/
 		$this->load->view("customers/form", $data);
 	}
 
@@ -229,16 +228,16 @@ class Customers extends Persons
 	public function save($customer_id = -1)
 	{
 		$first_name = $this->xss_clean($this->input->post('first_name'));
-		$last_name = $this->xss_clean($this->input->post('last_name'));
-		$email = $this->xss_clean(strtolower($this->input->post('email')));
-
-		// format first and last name properly
+        $last_name = $this->xss_clean($this->input->post('last_name'));
+        $email = $this->xss_clean(strtolower($this->input->post('email')));
+        
+        // format first and last name properly
 		$first_name = $this->nameize($first_name);
-		$last_name = $this->nameize($last_name);
+        $last_name = ''; // Last_name always null
 
 		$person_data = array(
 			'first_name' => $first_name,
-			'last_name' => $last_name,
+            'last_name' => $last_name,
 			'gender' => $this->input->post('gender'),
 			'email' => $email,
 			'phone_number' => $this->input->post('phone_number'),
@@ -270,7 +269,7 @@ class Customers extends Persons
 		if($this->Customer->save_customer($person_data, $customer_data, $customer_id))
 		{
 			// save customer to Mailchimp selected list
-			$this->mailchimp_lib->addOrUpdateMember($this->_list_id, $email, $first_name, $last_name, $this->input->post('mailchimp_status'), array('vip' => $this->input->post('mailchimp_vip') != NULL));
+			$this->mailchimp_lib->addOrUpdateMember($this->_list_id, $email, $first_name, $last_name,$this->input->post('mailchimp_status'), array('vip' => $this->input->post('mailchimp_vip') != NULL));
 
 			// New customer
 			if($customer_id == -1)
@@ -389,7 +388,7 @@ class Customers extends Persons
 						$email = strtolower($data[4]);
 						$person_data = array(
 							'first_name'	=> $data[0],
-							'last_name'		=> $data[1],
+                            'last_name'		=> $data[1],
 							'gender'		=> $data[2],
 							'email'			=> $email,
 							'phone_number'	=> $data[5],

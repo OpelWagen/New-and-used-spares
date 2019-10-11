@@ -1,6 +1,6 @@
 <?php 
 
-$lang["common_address_1"] = "Địa chỉ 1";
+$lang["common_address_1"] = "Địa chỉ";
 $lang["common_address_2"] = "Địa chỉ 2";
 $lang["common_city"] = "Thành phố";
 $lang["common_close"] = "Đóng";
@@ -20,8 +20,8 @@ $lang["common_export_excel"] = "Xuất dạng Excel";
 $lang["common_export_excel_no"] = "Không";
 $lang["common_export_excel_yes"] = "Có";
 $lang["common_fields_required_message"] = "Những trường có màu đỏ là bắt buộc";
-$lang["common_first_name"] = "Tên";
-$lang["common_first_name_required"] = "Trường tên là bắt buộc.";
+$lang["common_first_name"] = "Họ và Tên";
+$lang["common_first_name_required"] = "Trường Họ và tên là bắt buộc.";
 $lang["common_first_page"] = "Đầu";
 $lang["common_gender"] = "Giới tính";
 $lang["common_gender_female"] = "Nữ";
