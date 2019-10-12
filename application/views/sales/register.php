@@ -502,6 +502,18 @@ if(isset($success))
 				}
 				?>
                 <div class='btn btn-sm btn-default pull-right' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
+
+                <?php echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
+                <div class="btn-group">
+                    <label for="due_status" class="btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <span> </span>
+                    </label>
+                    <label for="due_status" class="btn btn-sm btn-warning active">
+                        <?php echo $this->lang->line('sales_due_status'); ?>
+                    </label>
+                </div>
+
 				<?php
 				// Only show this part if there is at least one payment entered.
 				if(count($payments) > 0)
@@ -863,8 +875,11 @@ $(document).ready(function()
 
 	$("#payment_types").change(function(){
         check_payment_type();
-        change_payment_types($(this));
     }).ready(check_payment_type);
+
+    $("#due_status").change(function(){
+        change_due_status($(this));
+    });
 
 	$("#cart_contents input").keypress(function(event)
 	{
@@ -965,12 +980,15 @@ function check_payment_type()
 	}
 }
 
-function change_payment_types(_this){
-    var payment_type = _this.val();
-    $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'payment_type': payment_type })
-        .done(function(response) {
-            location.href = response.url;
-        });
+function change_due_status(_this){
+    var due_status = 'false';
+    if(_this.is(":checked")){
+        due_status = 'true';
+    }
+    $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'due_status': due_status })
+    .done(function(response) {
+        location.href = response.url;
+    });
     
 }
 </script>

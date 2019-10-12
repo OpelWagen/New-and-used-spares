@@ -459,7 +459,7 @@ class Sales extends Secure_Controller
 			{
 				$data['warning'] = $this->sale_lib->out_of_stock($item_id_or_number_or_item_kit_or_receipt, $item_location);
 			}
-		}
+        }
 		$this->_reload($data);
 	}
 
@@ -498,13 +498,18 @@ class Sales extends Secure_Controller
     public function set_price_all_items(){
         $data = array();
         $items = $this->sale_lib->get_cart();
-        $payment_type =  $this->input->post('payment_type');
+        $due_status =  $this->input->post('due_status');
         foreach($items as $key => $item)
 		{
             $item_source = $this->Item->get_info($item['item_id']);
             $price = (float)$item_source->unit_price;
-            if( $payment_type == $this->lang->line('sales_due') ){
+            if( $due_status == 'true' ){
                 $price  = parse_decimals((float)$item_source->unit_price + ((float)$item_source->unit_price  * 0.1));
+                $this->sale_lib->set_due_status(true);
+                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), true);
+            } else {
+                $this->sale_lib->set_due_status(false);
+                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), false);
             }
             $description = $item['description'];
             $serialnumber = $item['serialnumber'];
@@ -521,6 +526,7 @@ class Sales extends Secure_Controller
         header('Content-Type: application/json');
         echo json_encode(array(
             'url' => site_url('sales'),
+            'debug' => $due_status
         )); 
     }
 
@@ -1181,7 +1187,17 @@ class Sales extends Secure_Controller
 		{
 			$data['mode_label'] = $this->lang->line('sales_receipt');
 			$data['customer_required'] = $this->lang->line('sales_customer_optional');
-		}
+        }
+
+        if(empty($data['cart'])){
+            $this->sale_lib->set_due_status(false);
+        }
+        
+        if($sale_id != -1){
+            $data['due_status'] = $this->Sale->get_due_status($sale_id);
+        } else {
+            $data['due_status'] = $this->sale_lib->get_due_status();
+        }
 
 		$data = $this->xss_clean($data);
 

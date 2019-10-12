@@ -239,10 +239,9 @@ function get_payment_options()
 	$config = get_instance()->config;
 	$lang = get_instance()->lang;
 
-	$payments = array();
-
-
-	if($config->item('payment_options_order') == 'debitcreditcash')
+    $payments = array();
+    
+	/*if($config->item('payment_options_order') == 'debitcreditcash')
 	{
 		$payments[$lang->line('sales_debit')] = $lang->line('sales_debit');
 		$payments[$lang->line('sales_credit')] = $lang->line('sales_credit');
@@ -280,7 +279,9 @@ function get_payment_options()
 	if (stripos(get_instance()->config->item('country_codes'), 'IN') !== false)
 	{
 		$payments[$lang->line('sales_upi')] = $lang->line('sales_upi');
-	}
+    }*/
+    
+    $payments[$lang->line('sales_cash')] = $lang->line('sales_cash');
 
 	return $payments;
 }

@@ -1285,7 +1285,15 @@ class Sale_lib
 		$rounded_total = $total;
 
 		return Rounding_mode::round_number($cash_rounding_code, $total, $cash_decimals);
-	}
+    }
+    
+    public function set_due_status($status){
+        $this->CI->session->set_userdata('due_status', $status);
+    }
+
+    public function get_due_status(){
+        return $this->CI->session->userdata('due_status');
+    }
 }
 
 ?>

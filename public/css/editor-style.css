@@ -16,6 +16,24 @@
 .print_hide#control_buttons > a{
     margin-bottom: 10px;
 }
+input[type="checkbox"]#due_status {
+    display: none;
+}
+input[type="checkbox"]#due_status + .btn-group > label span {
+    width: 20px;
+}
+input[type="checkbox"]#due_status + .btn-group > label span:first-child {
+    display: none;
+}
+input[type="checkbox"]#due_status + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+input[type="checkbox"]#due_status:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+input[type="checkbox"]#due_status:checked + .btn-group > label span:last-child {
+    display: none;   
+}
 @media (max-width: 1199px){
     #add_item_form ul li, #mode_form ul li{
         margin-bottom: 10px;

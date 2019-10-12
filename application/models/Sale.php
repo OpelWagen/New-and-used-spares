@@ -620,7 +620,8 @@ class Sale extends CI_Model
 			'work_order_number'	=> $work_order_number,
 			'dinner_table_id'	=> $dinner_table,
 			'sale_status'		=> $sale_status,
-			'sale_type'			=> $sale_type
+            'sale_type'			=> $sale_type,
+            'due_status'        => $this->sale_lib->get_due_status()
 		);
 
 		// Run these queries as a transaction, we want to make sure we do all or nothing
@@ -628,7 +629,8 @@ class Sale extends CI_Model
 
 		if($sale_id == -1)
 		{
-			$this->db->insert('sales', $sales_data);
+            
+            $this->db->insert('sales', $sales_data);
 			$sale_id = $this->db->insert_id();
 		}
 		else
@@ -977,7 +979,7 @@ class Sale extends CI_Model
 	{
 		$payments = get_payment_options();
 
-		if($giftcard == TRUE)
+		/*if($giftcard == TRUE)
 		{
 			$payments[$this->lang->line('sales_giftcard')] = $this->lang->line('sales_giftcard');
 		}
@@ -991,7 +993,7 @@ class Sale extends CI_Model
 		{
 			$payments[$this->lang->line('sales_cash_deposit')] = $this->lang->line('sales_cash_deposit');
 			$payments[$this->lang->line('sales_credit_deposit')] = $this->lang->line('sales_credit_deposit');
-		}
+		}*/
 
 		return $payments;
 	}
@@ -1436,6 +1438,20 @@ class Sale extends CI_Model
 				$this->Rewards->save($rewards_data);
 			}
 		}
+    }
+
+    public function get_due_status($sale_id)
+	{
+		$this->db->from('sales');
+		$this->db->where('sale_id', $sale_id);
+
+		return $this->db->get()->row()->due_status;
+	}
+
+	public function update_due_status($sale_id, $due_status)
+	{
+		$this->db->where('sale_id', $sale_id);
+		$this->db->update('sales', array('due_status'=>$due_status));
 	}
 
 }
