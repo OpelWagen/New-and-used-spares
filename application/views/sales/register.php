@@ -54,6 +54,9 @@ if(isset($success))
 				?>
 
 				<li class="pull-right">
+					<div class='btn btn-sm btn-default pull-left' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
+				</li>
+				<li class="pull-right">
 					<button class='btn btn-default btn-sm modal-dlg' id='show_suspended_sales_button' data-href="<?php echo site_url($controller_name."/suspended"); ?>"
 							title="<?php echo $this->lang->line('sales_suspended_sales'); ?>">
 						<span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspended_sales'); ?>
@@ -61,7 +64,7 @@ if(isset($success))
 				</li>
 
 				<?php
-				if($this->Employee->has_grant('reports_sales', $this->session->userdata('person_id')))
+				/*if($this->Employee->has_grant('reports_sales', $this->session->userdata('person_id')))
 				{
 				?>
 					<li class="pull-right">
@@ -69,7 +72,7 @@ if(isset($success))
 									array('class'=>'btn btn-primary btn-sm', 'id'=>'sales_takings_button', 'title'=>$this->lang->line('sales_takings'))); ?>
 					</li>
 				<?php
-				}
+				}*/
 				?>
 			</ul>
 		</div>
@@ -390,69 +393,6 @@ if(isset($success))
 			<div id="payment_details">
 				<?php
 				// Show Complete sale button instead of Add Payment if there is no amount due left
-				if($payments_cover_total)
-				{
-				?>
-					<?php echo form_open($controller_name."/add_payment", array('id'=>'add_payment_form', 'class'=>'form-horizontal')); ?>
-						<table class="sales_table_100">
-							<tr>
-								<td><?php echo $this->lang->line('sales_payment');?></td>
-								<td>
-									<?php echo form_dropdown('payment_type', $payment_options, $selected_payment_type, array('id'=>'payment_types', 'class'=>'selectpicker show-menu-arrow', 'data-style'=>'btn-default btn-sm', 'data-width'=>'auto', 'disabled'=>'disabled')); ?>
-								</td>
-							</tr>
-							<tr>
-								<td><span id="amount_tendered_label"><?php echo $this->lang->line('sales_amount_tendered'); ?></span></td>
-								<td>
-									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm disabled', 'disabled'=>'disabled', 'value'=>'0', 'size'=>'5', 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
-								</td>
-							</tr>
-						</table>
-					<?php echo form_close(); ?>
-						<?php
-						$payment_type = $this->input->post('payment_type');							
-						// Only show this part if the payment cover the total and in sale or return mode
-						if($pos_mode == '1' && $payment_type != $this->lang->line('sales_due') && !isset($customer))
-						{
-						?>
-						<div class='btn btn-sm btn-success pull-right' id='finish_sale_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
-						<?php
-						}
-						?>
-						<?php							
-						if($pos_mode == '1' && $payment_type = $this->lang->line('sales_due') && isset($customer))
-						{
-						?>
-						<div class='btn btn-sm btn-success pull-right' id='finish_sale_button'  tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
-						<?php
-						}
-						?>
-				<?php
-				}
-				else
-				{
-				?>
-					<?php echo form_open($controller_name."/add_payment", array('id'=>'add_payment_form', 'class'=>'form-horizontal')); ?>
-						<table class="sales_table_100">
-							<tr>
-								<td><?php echo $this->lang->line('sales_payment');?></td>
-								<td>
-									<?php echo form_dropdown('payment_type', $payment_options,  $selected_payment_type, array('id'=>'payment_types', 'class'=>'selectpicker show-menu-arrow', 'data-style'=>'btn-default btn-sm', 'data-width'=>'fit')); ?>
-								</td>
-							</tr>
-							<tr>
-								<td><span id="amount_tendered_label"><?php echo $this->lang->line('sales_amount_tendered'); ?></span></td>
-								<td>
-									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm non-giftcard-input', 'value'=>to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex, 'onClick'=>'this.select();')); ?>
-									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm giftcard-input', 'disabled' => true, 'value'=>to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
-								</td>
-							</tr>
-						</table>
-					<?php echo form_close(); ?>
-
-					<div class='btn btn-sm btn-success pull-right' id='add_payment_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-credit-card">&nbsp</span><?php echo $this->lang->line('sales_add_payment'); ?></div>
-				<?php
-				}
 				?>
 
 				<?php
@@ -486,25 +426,11 @@ if(isset($success))
 					</table>
 				<?php
 				}
+				
 				?>
-			</div>
-
-			<?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
-				<div class="form-group" id="buttons_sale">
-					<div class='btn btn-sm btn-default pull-left' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
-					<?php
-					// Only show this part if the payment covers the total
-					if(!$pos_mode && isset($customer))
-					{
-					?>
-						<div class='btn btn-sm btn-success' id='finish_invoice_quote_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $mode_label; ?></div>
-					<?php
-					}
-					?>
-
-					<div class='btn btn-sm btn-danger pull-right' id='cancel_sale_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('sales_cancel_sale'); ?></div>
-				</div>
-			<?php echo form_close(); ?>
+				<?php
+				//echo $payment_type_custom;
+				?>
 
 			<?php
 			// Only show this part if the payment cover the total
@@ -581,8 +507,31 @@ if(isset($success))
 					</div>
 				<?php
 				}
+				
 				?>
+			</div>
+				<?php echo form_open($controller_name."/congno", array('id'=>'payment_cong_no_form')); ?>
+			<label class="control-label">Công nợ <input type = 'checkbox' <?php echo (isset($payment_type_custom) && $payment_type_custom == 'congno') ? "checked = checked" : "" ; ?> name = "payment_cong_no" id = 'payment_cong_no' value = '1' /></label>
+			<?php echo form_close(); ?>
+			</div>
+
+			<?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
+				<div class="form-group" id="buttons_sale">
+
+					<?php
+					// Only show this part if the payment covers the total
+					if(!$pos_mode && isset($customer))
+					{
+					?>
+						<div class='btn btn-sm btn-success' id='finish_invoice_quote_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $mode_label; ?></div>
+					<?php
+					}
+					?>
+
+					<div class='btn btn-sm btn-success pull-right' id='finish_sale_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('sales_complete_sale'); ?></div>
+					<div class='btn btn-sm btn-danger pull-left' id='cancel_sale_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('sales_cancel_sale'); ?></div>
 				</div>
+			<?php echo form_close(); ?>
 			<?php
 			}
 			?>
@@ -763,6 +712,13 @@ $(document).ready(function()
 	$("#add_payment_button").click(function()
 	{
 		$('#add_payment_form').submit();
+	});
+	$("#payment_cong_no").change(function()
+	{
+		if(!this.checked) {
+			$('#payment_cong_no_form').attr('action', "<?php echo site_url($controller_name); ?>");
+		}
+		$('#payment_cong_no_form').submit();
 	});
 	$("#payment_types").change(check_payment_type).ready(check_payment_type);
 	$("#cart_contents input").keypress(function(event)

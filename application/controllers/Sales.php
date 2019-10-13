@@ -894,8 +894,28 @@ class Sales extends Secure_Controller
 		$data['invoice_view'] = $invoice_type;
 		return $this->xss_clean($data);
 	}
+	public function add_payment_custom($data){
+		$this->sale_lib->empty_payments();
+		if(isset($data['payment_type_custom']) && $data['payment_type_custom'] == 'congno'){
+			$payment_type  		= $this->lang->line('sales_due');
+		}else{
+			$payment_type 		= $this->lang->line('sales_cash');
+		}
+			$total = $this->sale_lib->get_total();
+			$this->sale_lib->add_payment($payment_type, (float)$total);
+
+	}
+	public function congno(){
+		$payment_cong_no = $this->input->post('payment_cong_no');
+		$data = array();
+		if($payment_cong_no)
+			$data['payment_type_custom'] = 'congno' ;
+		$this->_reload($data);
+		return FALSE;
+	}
 	private function _reload($data = array())
 	{
+		$this->add_payment_custom($data);
 		$sale_id = $this->session->userdata('sale_id');
 		if($sale_id == '')
 		{

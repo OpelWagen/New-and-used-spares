@@ -938,6 +938,9 @@ class Sale_lib
 		return -1;
 	}
 
+	public function congno(){
+		return FALSE;
+	}
 	public function edit_item($line, $description, $serialnumber, $quantity, $discount, $discount_type, $price, $discounted_total=NULL)
 	{
 		$items = $this->get_cart();
