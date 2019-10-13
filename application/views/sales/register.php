@@ -397,35 +397,7 @@ if(isset($success))
 
 				<?php
 				// Only show this part if there is at least one payment entered.
-				if(count($payments) > 0)
-				{
-				?>
-					<table class="sales_table_100" id="register">
-						<thead>
-							<tr>
-								<th style="width: 10%;"><?php echo $this->lang->line('common_delete'); ?></th>
-								<th style="width: 60%;"><?php echo $this->lang->line('sales_payment_type'); ?></th>
-								<th style="width: 20%;"><?php echo $this->lang->line('sales_payment_amount'); ?></th>
-							</tr>
-						</thead>
-
-						<tbody id="payment_contents">
-							<?php
-							foreach($payments as $payment_id=>$payment)
-							{
-							?>
-								<tr>
-									<td><?php echo anchor($controller_name."/delete_payment/$payment_id", '<span class="glyphicon glyphicon-trash"></span>'); ?></td>
-									<td><?php echo $payment['payment_type']; ?></td>
-									<td style="text-align: right;"><?php echo to_currency( $payment['payment_amount'] ); ?></td>
-								</tr>
-							<?php
-							}
-							?>
-						</tbody>
-					</table>
-				<?php
-				}
+				
 				
 				?>
 				<?php
