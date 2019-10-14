@@ -1080,16 +1080,29 @@ class Sales extends Secure_Controller
 
 		$data['invoice_view'] = $invoice_type;
 		return $this->xss_clean($data);
-	}
+    }
+    
+    public function add_payment_custom($data, $sale_id){
+		$this->sale_lib->empty_payments();
+		if($this->sale_lib->get_due_status() || ($sale_id != -1 && $this->Sale->get_due_status($sale_id))){
+			$payment_type  		= $this->lang->line('sales_due');
+		}else{
+			$payment_type 		= $this->lang->line('sales_cash');
+		}
+			$total = $this->sale_lib->get_total();
+			$this->sale_lib->add_payment($payment_type, (float)$total);
+    }
 
 	private function _reload($data = array())
 	{
-		$sale_id = $this->session->userdata('sale_id');
+        
+        $sale_id = $this->session->userdata('sale_id');
 		if($sale_id == '')
 		{
 			$sale_id = -1;
 			$this->session->set_userdata('sale_id', -1);
-		}
+        }
+        $this->add_payment_custom($data, $sale_id);
 		$data['cart'] = $this->sale_lib->get_cart();
 		$customer_info = $this->_load_customer_data($this->sale_lib->get_customer(), $data, TRUE);
 

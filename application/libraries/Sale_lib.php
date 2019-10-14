@@ -718,7 +718,7 @@ class Sale_lib
 			$item_id = -1;
 			return FALSE;
         }
-
+       
 		$price = 0.00;
 		$cost_price = 0.00;
 		$item_id = $item_info->item_id;
@@ -750,7 +750,7 @@ class Sale_lib
 
         }
         
-        if($this->get_due_status(true)){
+        if( $this->get_due_status(true) || ( $sale_id != -1 && $sale_id != null && $this->Sale->get_due_status($sale_id)) ) {
             $price = (float)$price * 1.1;
         }
 
