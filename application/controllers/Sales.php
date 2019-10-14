@@ -499,7 +499,7 @@ class Sales extends Secure_Controller
         $data = array();
         $items = $this->sale_lib->get_cart();
         $due_status =  $this->input->post('due_status');
-		$due_rate = 1.1 ;
+		$due_rate = 1.1 ;// Sau này có option để set cái rate nay, nên mình chú ý
         foreach($items as $key => $item)
 		{
             /*$item_source = $this->Item->get_info($item['item_id']);
