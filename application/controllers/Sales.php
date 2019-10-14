@@ -469,7 +469,7 @@ class Sales extends Secure_Controller
 
 		$this->form_validation->set_rules('price', 'lang:sales_price', 'required|callback_numeric');
 		$this->form_validation->set_rules('quantity', 'lang:sales_quantity', 'required|callback_numeric');
-		$this->form_validation->set_rules('discount', 'lang:sales_discount', 'required|callback_numeric');
+		$this->form_validation->set_rules('discount', 'lang:sales_discount', 'callback_numeric');
 
 		$description = $this->input->post('description');
 		$serialnumber = $this->input->post('serialnumber');
