@@ -717,7 +717,7 @@ class Sale_lib
 		{
 			$item_id = -1;
 			return FALSE;
-		}
+        }
 
 		$price = 0.00;
 		$cost_price = 0.00;
@@ -748,7 +748,11 @@ class Sale_lib
 				$cost_price = $item_info->cost_price;
 			}
 
-		}
+        }
+        
+        if($this->get_due_status(true)){
+            $price = (float)$price * 1.1;
+        }
 
 		if($price_override != NULL)
 		{

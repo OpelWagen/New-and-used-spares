@@ -62,8 +62,12 @@ if(isset($success))
 					</button>
 				</li>
 
+                <li class="pull-right">
+                    <div class='btn btn-sm btn-default pull-right' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
+                </li>
+
 				<?php
-				if($this->Employee->has_grant('reports_sales', $this->session->userdata('person_id')))
+				/*if($this->Employee->has_grant('reports_sales', $this->session->userdata('person_id')))
 				{
 				?>
 					<li class="pull-right">
@@ -71,7 +75,7 @@ if(isset($success))
 									array('class'=>'btn btn-primary btn-sm', 'id'=>'sales_takings_button', 'title'=>$this->lang->line('sales_takings'))); ?>
 					</li>
 				<?php
-				}
+				}*/
 				?>
 			</ul>
 		</div>
@@ -453,10 +457,10 @@ if(isset($success))
 				</tr>
 			</table>
 
-			<div id="payment_details">
+			<div id="payment_details" class="hidden">
 				<?php
 				// Show Complete sale button instead of Add Payment if there is no amount due left
-				if($payments_cover_total)
+				/*if($payments_cover_total)
 				{
 				?>
 					<?php echo form_open($controller_name."/add_payment", array('id'=>'add_payment_form', 'class'=>'form-horizontal')); ?>
@@ -499,20 +503,8 @@ if(isset($success))
 						</table>
 					<?php echo form_close(); ?>
 				<?php
-				}
+				} */
 				?>
-                <div class='btn btn-sm btn-default pull-right' id='suspend_sale_button'><span class="glyphicon glyphicon-align-justify">&nbsp</span><?php echo $this->lang->line('sales_suspend_sale'); ?></div>
-
-                <?php echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
-                <div class="btn-group">
-                    <label for="due_status" class="btn btn-sm btn-default">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        <span> </span>
-                    </label>
-                    <label for="due_status" class="btn btn-sm btn-warning active">
-                        <?php echo $this->lang->line('sales_due_status'); ?>
-                    </label>
-                </div>
 
 				<?php
 				// Only show this part if there is at least one payment entered.
@@ -548,8 +540,98 @@ if(isset($success))
 				?>
 			</div>
 
-			<?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
+			<?php
+			// Only show this part if the payment cover the total
+			//if($payments_cover_total || !$pos_mode)
+			//{
+			?>
+				<div class="container-fluid" style="margin-top: 10px;">
+					<div class="no-gutter row">
+						<div class="form-group form-group-sm">
+							<div class="col-xs-12">
+								<?php echo form_label($this->lang->line('common_comments'), 'comments', array('class'=>'control-label', 'id'=>'comment_label', 'for'=>'comment')); ?>
+								<?php echo form_textarea(array('name'=>'comment', 'id'=>'comment', 'class'=>'form-control input-sm', 'value'=>$comment, 'rows'=>'2')); ?>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group form-group-sm">
+							<div class="col-xs-6">
+								<label for="sales_print_after_sale" class="control-label checkbox pull-left">
+									<?php echo form_checkbox(array('name'=>'sales_print_after_sale', 'id'=>'sales_print_after_sale', 'value'=>1, 'checked'=>$print_after_sale)); ?>
+									<?php echo $this->lang->line('sales_print_after_sale')?>
+								</label>
+							</div>
+
+							<?php
+							if(!empty($customer_email))
+							{
+							?>
+								<div class="col-xs-6">
+									<label for="email_receipt" class="control-label checkbox pull-left">
+										<?php echo form_checkbox(array('name'=>'email_receipt', 'id'=>'email_receipt', 'value'=>1, 'checked'=>$email_receipt)); ?>
+										<?php echo $this->lang->line('sales_email_receipt');?>
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							<?php
+							if($mode == "sale_work_order")
+							{
+							?>
+								<div class="col-xs-6">
+									<label for="price_work_orders" class="control-label checkbox pull-left">
+									<?php echo form_checkbox(array('name'=>'price_work_orders', 'id'=>'price_work_orders', 'value'=>1, 'checked'=>$price_work_orders)); ?>
+									<?php echo $this->lang->line('sales_include_prices');?>
+									</label>
+								</div>
+							<?php
+							}
+							?>
+						</div>
+					</div>
+				<?php
+				if(($mode == "sale") && $this->config->item('invoice_enable') == TRUE)
+				{
+				?>
+					<div class="row">
+						<div class="form-group form-group-sm">
+							<div class="col-xs-6">
+								<label for="sales_invoice_enable" class="control-label checkbox pull-left">
+									<?php echo form_checkbox(array('name'=>'sales_invoice_enable', 'id'=>'sales_invoice_enable', 'value'=>1, 'checked'=>$invoice_number_enabled)); ?>
+									<?php echo $this->lang->line('sales_invoice_enable');?>
+								</label>
+							</div>
+
+							<div class="col-xs-6">
+								<div class="input-group input-group-sm pull-left">
+									<span class="input-group-addon input-sm ">#</span>
+									<?php echo form_input(array('name'=>'sales_invoice_number', 'id'=>'sales_invoice_number', 'class'=>'form-control input-sm', 'value'=>$invoice_number));?>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php
+				}
+				?>
+				</div>
+			<?php
+			//}
+			?>
+            <?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
 				<div class="form-group" id="buttons_sale">
+                    <?php echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
+                    <div class="btn-group pull-left" style="width: 100%;">
+                        <label for="due_status" class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            <span> </span>
+                        </label>
+                        <label for="due_status" class="btn btn-sm btn-warning active">
+                            <?php echo $this->lang->line('sales_due_status'); ?>
+                        </label>
+                    </div>
+                    
                     <?php
 					// Only show this part if the payment covers the total
 					if(!$pos_mode && isset($customer))
@@ -562,10 +644,13 @@ if(isset($success))
 
 					<div class='btn btn-sm btn-danger pull-left' id='cancel_sale_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('sales_cancel_sale'); ?></div>
                     <?php
+                    //Xóa thêm thanh toán
+                    /*
                     if(!$payments_cover_total) :
                     ?>
                     <div class='btn btn-sm btn-success pull-right' id='add_payment_button' tabindex="<?php echo ++$tabindex; ?>"><span class="glyphicon glyphicon-credit-card">&nbsp</span><?php echo $this->lang->line('sales_add_payment'); ?></div>
-                    <?php else : ?>
+                    <?php else : */ 
+                    ?>
                     <?php
                         $payment_type = $this->input->post('payment_type');							
                         // Only show this part if the payment cover the total and in sale or return mode
@@ -585,90 +670,9 @@ if(isset($success))
                         <?php
                         }
                     ?>
-                    <?php endif; ?>
+                    <?php //endif; ?>
 				</div>
 			<?php echo form_close(); ?>
-
-			<?php
-			// Only show this part if the payment cover the total
-			if($payments_cover_total || !$pos_mode)
-			{
-			?>
-				<div class="container-fluid">
-					<div class="no-gutter row">
-						<div class="form-group form-group-sm">
-							<div class="col-xs-12">
-								<?php echo form_label($this->lang->line('common_comments'), 'comments', array('class'=>'control-label', 'id'=>'comment_label', 'for'=>'comment')); ?>
-								<?php echo form_textarea(array('name'=>'comment', 'id'=>'comment', 'class'=>'form-control input-sm', 'value'=>$comment, 'rows'=>'2')); ?>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-
-						<div class="form-group form-group-sm">
-							<div class="col-xs-6">
-								<label for="sales_print_after_sale" class="control-label checkbox">
-									<?php echo form_checkbox(array('name'=>'sales_print_after_sale', 'id'=>'sales_print_after_sale', 'value'=>1, 'checked'=>$print_after_sale)); ?>
-									<?php echo $this->lang->line('sales_print_after_sale')?>
-								</label>
-							</div>
-
-							<?php
-							if(!empty($customer_email))
-							{
-							?>
-								<div class="col-xs-6">
-									<label for="email_receipt" class="control-label checkbox">
-										<?php echo form_checkbox(array('name'=>'email_receipt', 'id'=>'email_receipt', 'value'=>1, 'checked'=>$email_receipt)); ?>
-										<?php echo $this->lang->line('sales_email_receipt');?>
-									</label>
-								</div>
-							<?php
-							}
-							?>
-							<?php
-							if($mode == "sale_work_order")
-							{
-							?>
-								<div class="col-xs-6">
-									<label for="price_work_orders" class="control-label checkbox">
-									<?php echo form_checkbox(array('name'=>'price_work_orders', 'id'=>'price_work_orders', 'value'=>1, 'checked'=>$price_work_orders)); ?>
-									<?php echo $this->lang->line('sales_include_prices');?>
-									</label>
-								</div>
-							<?php
-							}
-							?>
-						</div>
-					</div>
-				<?php
-				if(($mode == "sale") && $this->config->item('invoice_enable') == TRUE)
-				{
-				?>
-					<div class="row">
-						<div class="form-group form-group-sm">
-							<div class="col-xs-6">
-								<label for="sales_invoice_enable" class="control-label checkbox">
-									<?php echo form_checkbox(array('name'=>'sales_invoice_enable', 'id'=>'sales_invoice_enable', 'value'=>1, 'checked'=>$invoice_number_enabled)); ?>
-									<?php echo $this->lang->line('sales_invoice_enable');?>
-								</label>
-							</div>
-
-							<div class="col-xs-6">
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon input-sm">#</span>
-									<?php echo form_input(array('name'=>'sales_invoice_number', 'id'=>'sales_invoice_number', 'class'=>'form-control input-sm', 'value'=>$invoice_number));?>
-								</div>
-							</div>
-						</div>
-					</div>
-				<?php
-				}
-				?>
-				</div>
-			<?php
-			}
-			?>
 		<?php
 		}
 		?>
