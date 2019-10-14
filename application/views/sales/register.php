@@ -17,16 +17,13 @@ if(isset($success))
 }
 ?>
 
-<div id="register_wrapper">
+<div id="register_wrapper" class = 'col-sm-12 col-md-6 col-lg-7'>
 
 <!-- Top register controls -->
 
 	<?php echo form_open($controller_name."/change_mode", array('id'=>'mode_form', 'class'=>'form-horizontal panel panel-default')); ?>
 		<div class="panel-body form-group">
 			<ul>
-				<li class="pull-left first_li">
-					<label class="control-label"><?php echo $this->lang->line('sales_mode'); ?></label>
-				</li>
 				<li class="pull-left">
 					<?php echo form_dropdown('mode', $modes, $mode, array('onchange'=>"$('#mode_form').submit();", 'class'=>'selectpicker show-menu-arrow', 'data-style'=>'btn-default btn-sm', 'data-width'=>'fit')); ?>
 				</li>
@@ -86,9 +83,6 @@ if(isset($success))
 	<?php echo form_open($controller_name."/add", array('id'=>'add_item_form', 'class'=>'form-horizontal panel panel-default')); ?>
 		<div class="panel-body form-group">
 			<ul>
-				<li class="pull-left first_li">
-					<label for="item" class='control-label'><?php echo $this->lang->line('sales_find_or_scan_item_or_receipt'); ?></label>
-				</li>
 				<li class="pull-left">
 					<?php echo form_input(array('name'=>'item', 'id'=>'item', 'class'=>'form-control input-sm', 'size'=>'50', 'tabindex'=>++$tabindex)); ?>
 					<span class="ui-helper-hidden-accessible" role="status"></span>
@@ -110,9 +104,9 @@ if(isset($success))
 		<thead>
 			<tr>
 				<th style="width: 5%;"><?php echo $this->lang->line('common_delete'); ?></th>
-				<!-- <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number'); ?></th> -->
-                <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number_instock'); ?></th>
-				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?></th>
+				<!-- <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number'); ?></th> 
+                <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number_instock'); ?></th>-->
+				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?> / <?php echo $this->lang->line('sales_item_number_instock'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
 				<th style="width: 15%;" class="hidden"><?php echo $this->lang->line('sales_discount'); ?></th>
@@ -146,9 +140,6 @@ if(isset($success))
 								<?php echo form_hidden('location', $item['item_location']); ?>
 								<?php echo form_input(array('type'=>'hidden', 'name'=>'item_id', 'value'=>$item['item_id'])); ?>
 							</td>
-                            <td>
-									<?php echo ($item['in_stock'] != 0) ?  to_quantity_decimals($item['in_stock']) : '<span class = "btn-danger btn-sm">' . $this->lang->line('sales_item_out_of_stock') . '</span>'; ?>
-							</td>
 							<?php
 							if($item['item_type'] == ITEM_TEMP)
 							{
@@ -164,8 +155,8 @@ if(isset($success))
 							?>
 								<!-- <td><?php echo $item['item_number']; ?></td> -->
 								<td style="align: center;">
-									<?php echo $item['name'] . ' '. implode(' ', array($item['attribute_values'], $item['attribute_dtvalues'])); ?>
-									<br/>
+									<?php echo $item['name'] . ' '. implode(' ', array($item['attribute_values'], $item['attribute_dtvalues'])); ?> ( 									
+									<?php echo ($item['in_stock'] != 0) ?  to_quantity_decimals($item['in_stock']) : '<span class = "btn-danger btn-sm">' . $this->lang->line('sales_item_out_of_stock') . '</span>'; ?>)
 									<?php //if ($item['stock_type'] == '0'): echo '[' . to_quantity_decimals($item['in_stock']) . ' in ' . $item['stock_name'] . ']'; endif; ?>
 								</td>
 							<?php
@@ -317,7 +308,7 @@ if(isset($success))
 
 <!-- Overall Sale -->
 
-<div id="overall_sale" class="panel panel-default">
+<div id="overall_sale" class="panel panel-default col-sm-12 col-md-6 col-lg-5" >
 	<div class="panel-body">
 		<?php echo form_open($controller_name."/select_customer", array('id'=>'select_customer_form', 'class'=>'form-horizontal')); ?>
 			<?php
@@ -891,7 +882,7 @@ $(document).ready(function()
     }).ready(check_payment_type);
 
     $("#due_status").change(function(){
-        change_due_status($(this));
+        change_due_status($(this).is(':checked'));
     });
 
 	$("#cart_contents input").keypress(function(event)
@@ -993,11 +984,11 @@ function check_payment_type()
 	}
 }
 
-function change_due_status(_this){
-    var due_status = 'false';
+function change_due_status(due_status){
+   /* var due_status = 'false';
     if(_this.is(":checked")){
         due_status = 'true';
-    }
+    }*/
     $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'due_status': due_status })
     .done(function(response) {
         location.href = response.url;
