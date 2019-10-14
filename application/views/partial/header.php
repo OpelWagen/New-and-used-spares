@@ -77,11 +77,12 @@
 		<!-- end mincss template tags -->
 		<!-- start minjs template tags -->
 		<script type="text/javascript" src="dist/opensourcepos.min.js?rel=eb5f01e7bf"></script>
-        <!-- end minjs template tags -->
-        <link rel="stylesheet" type="text/css" href="css/editor-style.css"/>
+        <!-- end minjs template tags
+        <link rel="stylesheet" type="text/css" href="css/editor-style.css"/> -->
         <script type="text/javascript" src="js/editor-script.js"></script>
 	<?php endif; ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo 'dist/bootswatch/' . (empty($this->config->item('theme')) ? 'flatly' : $this->config->item('theme')) . '/bootstrap-custom.css' ?>"/>
+        <link rel="stylesheet" type="text/css" href="css/custom-style.css"/> 
 
 	<?php $this->load->view('partial/header_js'); ?>
 	<?php $this->load->view('partial/lang_lines'); ?>
