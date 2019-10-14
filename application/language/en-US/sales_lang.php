@@ -84,6 +84,7 @@ $lang["sales_invoice_type_tax_invoice"] = "Tax Invoice (tax_invoice.php)";
 $lang["sales_invoice_unsent"] = "Invoice failed to be sent to";
 $lang["sales_invoice_update"] = "Recount";
 $lang["sales_item_insufficient_of_stock"] = "Item has insufficient stock.";
+$lang["sales_item_number_instock"] = "In stock";
 $lang["sales_item_name"] = "Item Name";
 $lang["sales_item_number"] = "Item #";
 $lang["sales_item_out_of_stock"] = "Item is out of stock.";
