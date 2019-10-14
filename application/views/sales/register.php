@@ -393,6 +393,12 @@ if(isset($success))
 
 				<?php echo anchor($controller_name."/remove_customer", '<span class="glyphicon glyphicon-remove">&nbsp</span>' . $this->lang->line('common_remove').' '.$this->lang->line('customers_customer'),
 								array('class'=>'btn btn-danger btn-sm', 'id'=>'remove_customer_button', 'title'=>$this->lang->line('common_remove').' '.$this->lang->line('customers_customer'))); ?>
+				 <?php // echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'class'=>'hidden', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
+				 <div class="custom-control custom-checkbox mr-sm-2">
+					<label class="custom-control-label" for="due_status">
+					<input type="checkbox" class="custom-control-input" id="due_status" name = 'due_status' <?php echo ($due_status)? "checked":"";?>>
+					   <?php echo $this->lang->line('sales_due_status'); ?></label>
+				</div>
 			<?php
 			}
 			else
@@ -413,39 +419,39 @@ if(isset($success))
 			?>
 		<?php echo form_close(); ?>
 
-		<table class="sales_table_100" id="sale_totals">
-			<tr>
-				<th style="width: 55%;"><?php echo $this->lang->line('sales_quantity_of_items',$item_count); ?></th>
-				<th style="width: 45%; text-align: right;"><?php echo $total_units; ?></th>
-			</tr>
-			<tr>
-				<th style="width: 55%;"><?php echo $this->lang->line('sales_sub_total'); ?></th>
-				<th style="width: 45%; text-align: right;"><?php echo to_currency($subtotal); ?></th>
-			</tr>
-
-			<?php
-			foreach($taxes as $tax_group_index=>$tax)
-			{
-			?>
-				<tr>
-					<th style='width: 55%;'><?php echo (float)$tax['tax_rate'] . '% ' . $tax['tax_group']; ?></th>
-					<th style="width: 45%; text-align: right;"><?php echo to_currency_tax($tax['sale_tax_amount']); ?></th>
-				</tr>
-			<?php
-			}
-			?>
-
-			<tr>
-				<th style='width: 55%;'><?php echo $this->lang->line('sales_total'); ?></th>
-				<th style="width: 45%; text-align: right;"><span id="sale_total"><?php echo to_currency($total); ?></span></th>
-			</tr>
-		</table>
 
 		<?php
 		// Only show this part if there are Items already in the sale.
 		if(count($cart) > 0)
 		{
 		?>
+			<table class="sales_table_100" id="sale_totals">
+				<tr>
+					<th style="width: 55%;"><?php echo $this->lang->line('sales_quantity_of_items',$item_count); ?></th>
+					<th style="width: 45%; text-align: right;"><?php echo $total_units; ?></th>
+				</tr>
+				<tr>
+					<th style="width: 55%;"><?php echo $this->lang->line('sales_sub_total'); ?></th>
+					<th style="width: 45%; text-align: right;"><?php echo to_currency($subtotal); ?></th>
+				</tr>
+
+				<?php
+				foreach($taxes as $tax_group_index=>$tax)
+				{
+				?>
+					<tr>
+						<th style='width: 55%;'><?php echo (float)$tax['tax_rate'] . '% ' . $tax['tax_group']; ?></th>
+						<th style="width: 45%; text-align: right;"><?php echo to_currency_tax($tax['sale_tax_amount']); ?></th>
+					</tr>
+				<?php
+				}
+				?>
+
+				<tr>
+					<th style='width: 55%;'><?php echo $this->lang->line('sales_total'); ?></th>
+					<th style="width: 45%; text-align: right;"><span id="sale_total"><?php echo to_currency($total); ?></span></th>
+				</tr>
+			</table>
 			<table class="sales_table_100" id="payment_totals">
 				<tr>
 					<th style="width: 55%;"><?php echo $this->lang->line('sales_payments_total');?></th>
@@ -621,16 +627,7 @@ if(isset($success))
 			?>
             <?php echo form_open($controller_name."/cancel", array('id'=>'buttons_form')); ?>
 				<div class="form-group" id="buttons_sale">
-                    <?php echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
-                    <div class="btn-group pull-left" style="width: 100%;">
-                        <label for="due_status" class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-ok"></span>
-                            <span> </span>
-                        </label>
-                        <label for="due_status" class="btn btn-sm btn-warning active">
-                            <?php echo $this->lang->line('sales_due_status'); ?>
-                        </label>
-                    </div>
+                   
                     
                     <?php
 					// Only show this part if the payment covers the total
