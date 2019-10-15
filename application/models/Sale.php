@@ -1443,9 +1443,14 @@ class Sale extends CI_Model
     public function get_due_status($sale_id)
 	{
 		$this->db->from('sales');
-		$this->db->where('sale_id', $sale_id);
-
-		return $this->db->get()->row()->due_status;
+        $this->db->where('sale_id', $sale_id);
+        $due_status = $this->db->get()->row()->due_status;
+        if($due_status){
+            $this->sale_lib->set_due_status(true);
+        } else {
+            $this->sale_lib->set_due_status(false);
+        }
+		return $due_status;
 	}
 
 	public function update_due_status($sale_id, $due_status)

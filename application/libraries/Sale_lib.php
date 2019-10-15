@@ -719,6 +719,7 @@ class Sale_lib
 			return FALSE;
         }
        
+        $due_rate = (float)DUE_RATE;
 		$price = 0.00;
 		$cost_price = 0.00;
 		$item_id = $item_info->item_id;
@@ -750,8 +751,8 @@ class Sale_lib
 
         }
         
-        if( $this->get_due_status(true) || ( $sale_id != -1 && $sale_id != null && $this->Sale->get_due_status($sale_id)) ) {
-            $price = (float)$price * 1.1;
+        if( $this->get_due_status(true) ) {
+            $price = (float)$price * $due_rate;
         }
 
 		if($price_override != NULL)

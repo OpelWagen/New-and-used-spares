@@ -499,32 +499,11 @@ class Sales extends Secure_Controller
         $data = array();
         $items = $this->sale_lib->get_cart();
         $due_status =  $this->input->post('due_status');
-		$due_rate = 1.1 ;// Sau này có option để set cái rate nay, nên mình chú ý
+		$due_rate = (float)DUE_RATE ;// Sau này có option để set cái rate nay, nên mình chú ý
         foreach($items as $key => $item)
 		{
-            /*$item_source = $this->Item->get_info($item['item_id']);
-            $price = (float)$item_source->unit_price;
-            if( $due_status == 'true' ){
-                $price  = parse_decimals((float)$item_source->unit_price + ((float)$item_source->unit_price  * 0.1));
-                $this->sale_lib->set_due_status(true);
-                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), true);
-            } else {
-                $this->sale_lib->set_due_status(false);
-                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), false);
-            }
-            $description = $item['description'];
-            $serialnumber = $item['serialnumber'];
-            $quantity = parse_decimals($item['quantity']);
-            $discount = parse_decimals($item['discount']);
-            $discount_type = $item['discount_type'];
-            $discounted_total = $item['discounted_total'];
-            $items[$key]['price'] = $price;
-            $items[$key]['total'] = $this->sale_lib->get_item_total($quantity, $price, $discount, $line['discount_type']);
-            $items[$key]['discounted_total'] = $this->sale_lib->get_item_total($quantity, $price, $discount, $line['discount_type'], TRUE);
-			*/
 			$line = &$items[$key];
 			$new_price = (float)$item['cost_price'] ;
-            
             if( $due_status == 'true' ){
 				$new_price *= $due_rate;
                 $this->sale_lib->set_due_status(true);
