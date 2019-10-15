@@ -13,4 +13,11 @@ jQuery(document).ready(function(){
             });
         });
     });
+    $( document ).ajaxStart(function() {
+        $( ".bootstrap-dialog-footer-buttons .btn" ).prop('disabled', true);
+    });
+    $( document ).ajaxStop(function() {
+        $( ".bootstrap-dialog-footer-buttons .btn" ).prop('disabled', false);
+    });
+    
 });
