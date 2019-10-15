@@ -502,8 +502,9 @@ class Sales extends Secure_Controller
 		$due_rate = (float)DUE_RATE ;// Sau này có option để set cái rate nay, nên mình chú ý
         foreach($items as $key => $item)
 		{
-			$line = &$items[$key];
-			$new_price = (float)$item['cost_price'] ;
+            $line = &$items[$key];
+            $item_source = $this->Item->get_info($item['item_id']);
+			$new_price = (float)$item_source->unit_price; //$item['cost_price'] ;
             if( $due_status == 'true' ){
 				$new_price *= $due_rate;
                 $this->sale_lib->set_due_status(true);
