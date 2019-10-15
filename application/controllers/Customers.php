@@ -163,7 +163,13 @@ class Customers extends Persons
 				$info->$property = $this->xss_clean($value);
 			}
 			$data['stats'] = $stats;
-		}
+        }
+        $due = $this->Customer->get_total_due($customer_id);
+        if(!empty($due))
+            $data['total_due'] = $this->Customer->get_total_due($customer_id)->total;
+        else {
+            $data['total_due'] = 0;
+        }
 
 		// retrieve the info from Mailchimp only if there is an email address assigned
 		/*if(!empty($info->email))

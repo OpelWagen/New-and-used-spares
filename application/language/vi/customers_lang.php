@@ -52,3 +52,4 @@ $lang["customers_taxable"] = "Phải đánh thuế";
 $lang["customers_total"] = "Trả tổng cộng";
 $lang["customers_update"] = "Cập nhật khách hàng";
 $lang["rewards_package"] = "Gói tiền thưởng";
+$lang["customers_total_due"] = "Tổng tiền nợ";

@@ -276,7 +276,31 @@
 								<?php endif; ?>
 							</div>
 						</div>
-					</div>
+                    </div>
+                    
+                    <div class="form-group form-group-sm">
+						<?php echo form_label($this->lang->line('customers_total_due'), 'due', array('class' => 'control-label col-xs-3')); ?>
+						<div class="col-xs-4">
+							<div class="input-group input-group-sm">
+								<?php if (!currency_side()): ?>
+									<span class="input-group-addon input-sm"><b><?php echo $this->config->item('currency_symbol'); ?></b></span>
+								<?php endif; ?>
+								<?php echo form_input(array(
+										'name'=>'due',
+										'id'=>'due',
+										'class'=>'form-control input-sm',
+										'value'=> to_currency_no_money($total_due),
+										'disabled'=>'')
+										); ?>
+								<?php if (currency_side()): ?>
+									<span class="input-group-addon input-sm"><b><?php echo $this->config->item('currency_symbol'); ?></b></span>
+								<?php endif; ?>
+							</div>
+                        </div>
+                        <?php  ?>
+                    </div>
+                    
+                    
 					
 					<div class="form-group form-group-sm">
 						<?php echo form_label($this->lang->line('customers_quantity'), 'quantity', array('class' => 'control-label col-xs-3')); ?>

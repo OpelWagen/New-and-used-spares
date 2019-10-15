@@ -988,7 +988,10 @@ function change_due_status(due_status){
     }*/
     $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'due_status': due_status })
     .done(function(response) {
-        location.href = response.url;
+        //kiểm tra response
+        if(typeof response.url !== 'undefined' && response.url !== ''){
+            location.href = response.url;
+        }
     });
     
 }

@@ -108,11 +108,8 @@ class Customer extends Person
 					SUM(sales_items.quantity_purchased) AS quantity
 				FROM ' . $this->db->dbprefix('sales') . ' AS sales
 				INNER JOIN ' . $this->db->dbprefix('sales_items') . ' AS sales_items
-                    ON sales_items.sale_id = sales.sale_id
-                INNER JOIN ' . $this->db->dbprefix('sales_payments') . ' AS sales_payments
-                    ON sales_payments.sale_id = sales.sale_id
-                WHERE sales.customer_id = ' . $this->db->escape($customer_id) . '
-                    AND sales_payments.payment_type != \'Trả chậm\'
+					ON sales_items.sale_id = sales.sale_id
+				WHERE sales.customer_id = ' . $this->db->escape($customer_id) . '
 				GROUP BY sale_id
 			)'
 		);
@@ -142,7 +139,9 @@ class Customer extends Person
 		$this->db->query('DROP TEMPORARY TABLE IF EXISTS ' . $this->db->dbprefix('sales_items_temp'));
 
 		return $stat;
-	}
+    }
+    
+
 
 	/*
 	Gets information about multiple customers
@@ -409,6 +408,19 @@ class Customer extends Person
 		}
 
 		return $this->db->get();
-	}
+    }
+    
+    /**
+     * Get total due of customer
+     */
+    public function get_total_due($customer_id){
+        $this->db->select("SUM(sales_payments.payment_amount) AS total");
+		$this->db->from('sales');
+		$this->db->join('sales_payments AS sales_payments', 'sales.sale_id = sales_payments.sale_id');
+		$this->db->where('sales.customer_id', $customer_id);
+		$this->db->where('sales.due_status', true);
+		$this->db->group_by('sales.customer_id');
+        return $this->db->get()->row();
+    }
 }
 ?>
