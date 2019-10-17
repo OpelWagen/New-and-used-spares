@@ -317,7 +317,7 @@ if(isset($success))
 			?>
 				<table class="sales_table_100">
 					<tr>
-						<th style='width: 55%;'><?php echo $this->lang->line("sales_customer"); ?></th>
+						<th style='width: 55%;'>Họ và tên</th>
 						<th style="width: 45%; text-align: right;"><?php echo anchor('customers/view/'.$customer_id, $customer, array('class' => 'modal-dlg', 'data-btn-submit' => $this->lang->line('common_submit'), 'title' => $this->lang->line('customers_update'))); ?></th>
 					</tr>
 					<?php
@@ -353,10 +353,16 @@ if(isset($success))
 					<?php
 					}
 					?>
+					<?php
+					if($customer_discount)					{
+					?>
 					<tr>
 						<th style='width: 55%;'><?php echo $this->lang->line("sales_customer_discount"); ?></th>
 						<th style="width: 45%; text-align: right;"><?php echo ($customer_discount_type == FIXED)?to_currency($customer_discount):$customer_discount . '%'; ?></th>
 					</tr>
+					<?php
+					}
+					?>
 					<?php if($this->config->item('customer_reward_enable') == TRUE): ?>
 					<?php
 					if(!empty($customer_rewards))

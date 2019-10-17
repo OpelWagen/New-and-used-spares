@@ -123,8 +123,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-
-					<a class="navbar-brand hidden-sm" href="<?php echo site_url(); ?>">TN19</a>
+					<img  src="<?php echo base_url()  ;?>/uploads/logo-header.png" style=" margin-top: 15px;">
 				</div>
 
 				<div class="navbar-collapse collapse">
