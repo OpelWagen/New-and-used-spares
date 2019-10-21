@@ -21,7 +21,6 @@
 				);?>
 	</div>
 </div>
-
 <div class="form-group form-group-sm">	
 	<?php echo form_label($this->lang->line('common_gender'), 'gender', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3')); ?>
 	<div class="col-xs-4">
@@ -54,7 +53,8 @@
                 'name'=>'company_name',
                 'id'=>'company_name',
                 'class'=>'form-control input-sm',
-                'value'=>$person_info->company_name)
+                'value'=>isset($person_info->company_name) ? $person_info->company_name : "" 
+				)
                 ); ?>
     </div>
 </div> 

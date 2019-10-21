@@ -49,6 +49,7 @@
 							<?php echo form_password(array(
 									'name'=>'password',
 									'id'=>'password',
+									'autocomplete'=>'new-password',
 									'class'=>'form-control input-sm')
 									);?>
 						</div>
