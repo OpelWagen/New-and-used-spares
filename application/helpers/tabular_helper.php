@@ -231,9 +231,10 @@ function get_customer_manage_table_headers()
 		array('people.person_id' => $CI->lang->line('common_id')),
 		//array('last_name' => $CI->lang->line('common_last_name')),
 		array('first_name' => $CI->lang->line('common_first_name')),
-		array('email' => $CI->lang->line('common_email')),
+		//array('email' => $CI->lang->line('common_email')),
 		array('phone_number' => $CI->lang->line('common_phone_number')),
-		array('total' => $CI->lang->line('common_total_spent'), 'sortable' => FALSE)
+		array('total' => $CI->lang->line('common_total_spent'), 'sortable' => FALSE),
+		array('cong_no' => $CI->lang->line('common_cong_no')),
 	);
 
 	if($CI->Employee->has_grant('messages', $CI->session->userdata('person_id')))
@@ -260,6 +261,7 @@ function get_customer_data_row($person, $stats)
 		'email' => empty($person->email) ? '' : mailto($person->email, $person->email),
 		'phone_number' => $person->phone_number,
 		'total' => to_currency($stats->total),
+		'cong_no' => to_currency($person->total_due),
 		'messages' => empty($person->phone_number) ? '' : anchor("Messages/view/$person->person_id", '<span class="glyphicon glyphicon-phone"></span>',
 			array('class'=>'modal-dlg', 'data-btn-submit' => $CI->lang->line('common_submit'), 'title'=>$CI->lang->line('messages_sms_send'))),
 		'edit' => anchor($controller_name."/view/$person->person_id", '<span class="glyphicon glyphicon-edit"></span>',

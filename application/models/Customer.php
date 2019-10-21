@@ -379,10 +379,20 @@ class Customer extends Person
 		if($count_only == TRUE)
 		{
 			$this->db->select('COUNT(customers.person_id) as count');
+		}else{
+			$SELECT_SQL = '*, (
+				SELECT SUM(`sales_payments`.payment_amount)
+				FROM `'.$this->db->dbprefix('sales').'` AS `sales`
+				JOIN `'.$this->db->dbprefix('sales_payments').'` as `sales_payments`  ON `sales`.`sale_id` = `sales_payments`.`sale_id`
+				WHERE `sales`.`customer_id` = `customers`.`person_id` AND `sales`.due_status = true
+				GROUP BY `sales`.`customer_id`
+			)  AS total_due';
+			$this->db->select($SELECT_SQL);
 		}
 
 		$this->db->from('customers AS customers');
 		$this->db->join('people', 'customers.person_id = people.person_id');
+		
 		$this->db->group_start();
 			$this->db->like('first_name', $search);
 			$this->db->or_like('last_name', $search);
@@ -393,7 +403,7 @@ class Customer extends Person
 			$this->db->or_like('CONCAT(first_name, " ", last_name)', $search);
 		$this->db->group_end();
 		$this->db->where('deleted', 0);
-
+		
 		// get_found_rows case
 		if($count_only == TRUE)
 		{
@@ -406,7 +416,6 @@ class Customer extends Person
 		{
 			$this->db->limit($rows, $limit_from);
 		}
-
 		return $this->db->get();
     }
     

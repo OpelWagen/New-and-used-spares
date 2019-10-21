@@ -68,3 +68,4 @@ $lang["common_welcome"] = "Chào mừng";
 $lang["common_welcome_message"] = "Chào mừng bạn đến với OSPOS, bấm chọn mô đun phía dưới để bắt đầu.";
 $lang["common_you_are_using_ospos"] = "Bạn đang sử dụng Open Source Point Of Sale phiên bản";
 $lang["common_zip"] = "Mã bưu điện";
+$lang["common_cong_no"] = "Công nợ";
