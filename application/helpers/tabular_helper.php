@@ -336,7 +336,7 @@ function get_items_manage_table_headers()
 		array('item_number' => $CI->lang->line('items_item_number')),
 		array('name' => $CI->lang->line('items_name')),
 		array('category' => $CI->lang->line('items_category')),
-		array('company_name' => $CI->lang->line('suppliers_company_name')),
+		//array('company_name' => $CI->lang->line('suppliers_company_name')),
 		array('cost_price' => $CI->lang->line('items_cost_price')),
 		array('unit_price' => $CI->lang->line('items_unit_price')),
 		array('quantity' => $CI->lang->line('items_quantity'))
@@ -344,15 +344,15 @@ function get_items_manage_table_headers()
 
 	if($CI->config->item('use_destination_based_tax') == '1')
 	{
-		$headers[] = array('tax_percents' => $CI->lang->line('items_tax_category'), 'sortable' => FALSE);
+		//$headers[] = array('tax_percents' => $CI->lang->line('items_tax_category'), 'sortable' => FALSE);
 	}
 	else
 	{
-		$headers[] = array('tax_percents' => $CI->lang->line('items_tax_percents'), 'sortable' => FALSE);
+		//$headers[] = array('tax_percents' => $CI->lang->line('items_tax_percents'), 'sortable' => FALSE);
 
 	}
 
-	$headers[] = array('item_pic' => $CI->lang->line('items_image'), 'sortable' => FALSE);
+	//$headers[] = array('item_pic' => $CI->lang->line('items_image'), 'sortable' => FALSE);
 
 	foreach($definition_names as $definition_id => $definition_name)
 	{
