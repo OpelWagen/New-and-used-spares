@@ -17,7 +17,8 @@ if(isset($success))
 }
 ?>
 
-<div id="register_wrapper" class = 'col-sm-12 col-md-6 col-lg-7'>
+<div class = 'col-sm-12 col-md-6 col-lg-7'>
+<div id="register_wrapper"  >
 
 <!-- Top register controls -->
 
@@ -87,12 +88,7 @@ if(isset($success))
 					<?php echo form_input(array('name'=>'item', 'id'=>'item', 'class'=>'form-control input-sm', 'size'=>'50', 'tabindex'=>++$tabindex)); ?>
 					<span class="ui-helper-hidden-accessible" role="status"></span>
 				</li>
-				<li class="pull-right">
-					<button id='new_item_button' class='btn btn-info btn-sm pull-right modal-dlg' data-btn-new="<?php echo $this->lang->line('common_new') ?>" data-btn-submit="<?php echo $this->lang->line('common_submit')?>" data-href="<?php echo site_url("items/view"); ?>"
-							title="<?php echo $this->lang->line($controller_name . '_new_item'); ?>">
-						<span class="glyphicon glyphicon-tag">&nbsp</span><?php echo $this->lang->line($controller_name. '_new_item'); ?>
-					</button>
-				</li>
+				
 			</ul>
 		</div>
 	<?php echo form_close(); ?>
@@ -111,7 +107,7 @@ if(isset($success))
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
 				<th style="width: 15%;" class="hidden"><?php echo $this->lang->line('sales_discount'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_total'); ?></th>
-				<th style="width: 5%;"><?php echo $this->lang->line('sales_update'); ?></th>
+				<th style="width: 10%;"><?php echo $this->lang->line('sales_update'); ?></th>
 			</tr>
 		</thead>
 
@@ -305,10 +301,12 @@ if(isset($success))
 		</tbody>
 	</table>
 </div>
+</div>
 
 <!-- Overall Sale -->
 
-<div id="overall_sale" class="panel panel-default col-sm-12 col-md-6 col-lg-5" >
+<div  class="col-sm-12 col-md-6 col-lg-5" >
+	<div id="overall_sale" class="panel panel-default" >
 	<div class="panel-body">
 		<?php echo form_open($controller_name."/select_customer", array('id'=>'select_customer_form', 'class'=>'form-horizontal')); ?>
 			<?php
@@ -680,6 +678,7 @@ if(isset($success))
 		}
 		?>
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">

@@ -1577,6 +1577,10 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+.main_page{
+    min-height: 64vh;
+    margin-top: 15px;
+}
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -4112,7 +4116,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 60px;
-  margin-bottom: 21px;
+  /* margin-bottom: 21px; */
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -4454,6 +4458,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin: 10px;
   width: 150px;
   background: #FF5722;
+  border: 5px solid #ffffff;
 }
 .navbar-default .navbar-nav > li:nth-child(1) > a{
   background: #128f76;
@@ -4469,14 +4474,16 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar .nav > li > a.menu-icon > img{
   width: 50px;
+  /* margin-top: 10px; */
 }
 .navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {box-shadow: 3px 3px 4px #fff;}
+.navbar-default .navbar-nav > li > a:focus {border: 5px solid #565656;}
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   /* color: #ffffff; */
   /* background-color: #1a242f; */
+  border: 5px solid #565656;
 }
 .navbar-default .navbar-nav > .disabled > a,
 .navbar-default .navbar-nav > .disabled > a:hover,
@@ -6928,8 +6935,12 @@ a.list-group-item-danger.active:focus {
     justify-content: center;
 } 
 .wrapper > .navbar ul.navbar-right a{
-    min-height: 110px;
+    /* min-height: 110px; */
 }
 .wrapper > .navbar ul.navbar-right li.active a{
-    border: 5px solid #fff;
+    /* border: 5px solid #565656; */
+}
+form#add_item_form {
+    background: #FF5722;
+    border: none;
 }

@@ -123,7 +123,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<img  src="<?php echo base_url()  ;?>/uploads/logo-header.png" style=" margin-top: 15px;">
+					<img  src="<?php echo base_url()  ;?>/uploads/company_logo.jpg" style=" margin-top: 15px;">
 				</div>
 
 				<div class="navbar-collapse collapse">
@@ -142,5 +142,6 @@
 		</div>
 
 		<div class="container">
+		<div class="main_page">
 			<div class="row">
 
