@@ -50,7 +50,7 @@ class Employee extends Person
 	public function get_info($employee_id)
 	{
 		$this->db->from('employees');
-		$this->db->join('people', 'people.person_id = employees.person_id');
+        $this->db->join('people', 'people.person_id = employees.person_id');
 		$this->db->where('employees.person_id', $employee_id);
 		$query = $this->db->get();
 
