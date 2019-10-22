@@ -1,3 +1,24 @@
 body *{
 	font-size:15px;
 }
+.daterangepicker table{
+    table-layout: fixed;
+}
+.daterangepicker .calendar{
+    min-width: 300px;
+}
+.daterangepicker .calendar td, 
+.daterangepicker .calendar th{
+    font-size: 10px;
+    min-width: 40px !important;
+}
+.daterangepicker th,
+.daterangepicker td{
+    width: 40px;
+}
+.daterangepicker .calendar th{
+    font-size: 8px;
+}
+.daterangepicker .calendar thead tr:nth-child(2) th:not(.prev):first-child{
+    display: none;
+}
