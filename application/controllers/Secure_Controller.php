@@ -37,7 +37,7 @@ class Secure_Controller extends CI_Controller
 			$this->session->set_userdata('menu_group', $menu_group);
 		}
 
-		if($menu_group == 'home')
+		if($menu_group == 'home' || empty($menu_group) )
 		{
 			$allowed_modules = $this->Module->get_allowed_home_modules($logged_in_employee_info->person_id);
 		}
