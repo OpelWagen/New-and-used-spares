@@ -207,7 +207,6 @@ $(document).ready(function()
 		rules:
 		{
 			first_name: 'required',
-			last_name: 'required',
 			username:
 			{
 				required: true,
@@ -235,7 +234,6 @@ $(document).ready(function()
 		messages: 
 		{
 			first_name: "<?php echo $this->lang->line('common_first_name_required'); ?>",
-			last_name: "<?php echo $this->lang->line('common_last_name_required'); ?>",
 			username:
 			{
 				required: "<?php echo $this->lang->line('employees_username_required'); ?>",

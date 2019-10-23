@@ -36,6 +36,7 @@ $lang["config_cash_rounding"] = "Cash Rounding";
 $lang["config_center"] = "Center";
 $lang["config_comma"] = "comma";
 $lang["config_company"] = "Company Name";
+$lang["config_company_code"] = "Company Code";
 $lang["config_company_change_image"] = "Change Image";
 $lang["config_company_logo"] = "Company Logo";
 $lang["config_company_remove_image"] = "Remove Image";

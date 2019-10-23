@@ -78,7 +78,8 @@ class Suppliers extends Persons
 		{
 			$info->$property = $this->xss_clean($value);
 		}
-		$data['person_info'] = $info;
+        $data['person_info'] = $info;
+        $data['hidden_company'] = true;
 		$data['categories'] = $this->Supplier->get_categories();
 
 		$this->load->view("suppliers/form", $data);

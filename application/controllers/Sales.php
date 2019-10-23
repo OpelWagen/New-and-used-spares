@@ -708,7 +708,7 @@ class Sales extends Secure_Controller
 
 				// Save the data to the sales table
 				$data['sale_id_num'] = $this->Sale->save($sale_id, $data['sale_status'], $data['cart'], $customer_id, $employee_id, $data['comments'], $invoice_number, $work_order_number, $quote_number, $sale_type, $data['payments'], $data['dinner_table'], $tax_details);
-				$data['sale_id'] = 'POS ' . $data['sale_id_num'];
+				$data['sale_id'] = $this->config->item('company_code'). '-' . $data['sale_id_num'];
 
 				// Resort and filter cart lines for printing
 				$data['cart'] = $this->sale_lib->sort_and_filter_cart($data['cart']);
@@ -822,7 +822,7 @@ class Sales extends Secure_Controller
 
 			$data['sale_id_num'] = $this->Sale->save($sale_id, $data['sale_status'], $data['cart'], $customer_id, $employee_id, $data['comments'], $invoice_number, $work_order_number, $quote_number, $sale_type, $data['payments'], $data['dinner_table'], $tax_details);
 
-			$data['sale_id'] = 'POS ' . $data['sale_id_num'];
+			$data['sale_id'] = $this->config->item('company_code'). '-' . $data['sale_id_num'];
 
 			$data['cart'] = $this->sale_lib->sort_and_filter_cart($data['cart']);
 			$data = $this->xss_clean($data);
@@ -855,7 +855,7 @@ class Sales extends Secure_Controller
 
 			$text = $this->config->item('invoice_email_message');
 			$tokens = array(new Token_invoice_sequence($sale_data['invoice_number']),
-				new Token_invoice_count('POS ' . $sale_data['sale_id']),
+				new Token_invoice_count($this->config->item('company_code'). '-' . $sale_data['sale_id']),
 				new Token_customer((object)$sale_data));
 			$text = $this->token_lib->render($text, $tokens);
 
@@ -1024,7 +1024,7 @@ class Sales extends Secure_Controller
 		$this->_load_customer_data($this->sale_lib->get_customer(), $data);
 
 		$data['sale_id_num'] = $sale_id;
-		$data['sale_id'] = 'POS ' . $sale_id;
+		$data['sale_id'] = $this->config->item('company_code'). '-' . $sale_id;
 		$data['comments'] = $sale_info['comment'];
 		$data['invoice_number'] = $sale_info['invoice_number'];
 		$data['quote_number'] = $sale_info['quote_number'];

@@ -36,6 +36,7 @@ $lang["config_cash_rounding"] = "Làm tròn tiền";
 $lang["config_center"] = "Giữa";
 $lang["config_comma"] = "dấu phẩy";
 $lang["config_company"] = "Tên công ty";
+$lang["config_company_code"] = "Mã công ty";
 $lang["config_company_change_image"] = "Đổi ảnh";
 $lang["config_company_logo"] = "Logo công ty";
 $lang["config_company_remove_image"] = "Gỡ bỏ ảnh";

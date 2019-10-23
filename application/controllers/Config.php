@@ -241,7 +241,8 @@ class Config extends Secure_Controller
 		$upload_data = $this->upload->data();
 		
 		$batch_save_data = array(
-			'company' => $this->input->post('company'),
+            'company' => $this->input->post('company'),
+            'company_code' => ($this->input->post('company_code')) ? $this->input->post('company_code'): 'POS',
 			'address' => $this->input->post('address'),
 			'phone' => $this->input->post('phone'),
 			'email' => $this->input->post('email'),

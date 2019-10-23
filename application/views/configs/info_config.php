@@ -18,6 +18,19 @@
 				</div>
 			</div>
 
+            <div class="form-group form-group-sm">	
+				<?php echo form_label($this->lang->line('config_company_code'), 'company_code', array('class' => 'control-label col-xs-2')); ?>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<?php echo form_input(array(
+							'name' => 'company_code',
+							'id' => 'company_code',
+							'class' => 'form-control input-sm',
+							'value'=>$this->config->item('company_code'))); ?>
+					</div>
+				</div>
+			</div>
+
 			<div class="form-group form-group-sm">	
 				<?php echo form_label($this->lang->line('config_company_logo'), 'company_logo', array('class' => 'control-label col-xs-2')); ?>
 				<div class='col-xs-6'>
