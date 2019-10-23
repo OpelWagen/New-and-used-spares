@@ -443,7 +443,7 @@ $(document).ready(function()
 {
 	$('#new').click(function() {
 		stay_open = true;
-		$("#item_form").submit();
+		$("#item_form").submit().reset();
 	});
 
 	$('#submit').click(function() {
@@ -516,7 +516,7 @@ $(document).ready(function()
                             $('#item_form').attr('action', "<?php echo site_url('items/save/')?>");
                             // use a whitelist of fields to minimize unintended side effects
                             $(':text, :password, :file, #description, #item_form').not('.quantity, #reorder_level, #tax_name_1, #receiving_quantity, ' +
-                                '#tax_percent_name_1, #category, #reference_number, #name, #cost_price, #unit_price, #taxed_cost_price, #taxed_unit_price, #definition_name, [name^="attribute_links"]').val('');
+                                '#tax_percent_name_1, #category, #reference_number, #cost_price, #unit_price, #taxed_cost_price, #taxed_unit_price, #definition_name, [name^="attribute_links"]').val('');
                             // de-select any checkboxes, radios and drop-down menus
                             $(':input', '#item_form').removeAttr('checked').removeAttr('selected');
                         }
