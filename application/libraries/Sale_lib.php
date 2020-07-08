@@ -44,6 +44,7 @@ class Sale_lib
 			$register_modes['sale_invoice'] = $this->CI->lang->line('sales_invoice');
 		}
 		$register_modes['return'] = $this->CI->lang->line('sales_return');
+		$register_modes['pay_the_debt'] = $this->CI->lang->line('sales_pay_the_debt');
 		return $register_modes;
 	}
 
@@ -713,7 +714,7 @@ class Sale_lib
 	{
 		$item_info = $this->CI->Item->get_info_by_id_or_number($item_id, $include_deleted);
 		//make sure item exists
-		if(empty($item_info))
+ 		if(empty($item_info))
 		{
 			$item_id = -1;
 			return FALSE;
@@ -890,7 +891,7 @@ class Sale_lib
 	public function out_of_stock($item_id, $item_location)
 	{
 		//make sure item exists
-		if($item_id != -1)
+		if($item_id != -1 && $item_id != ITEM_PAY_THE_DEBT)
 		{
 			$item_info = $this->CI->Item->get_info_by_id_or_number($item_id, TRUE);
 
@@ -928,6 +929,20 @@ class Sale_lib
 		return $quanity_already_added;
 	}
 
+	public function get_line($item_id)
+	{
+		$items = $this->get_cart();
+
+		foreach($items as $line=>$item)
+		{
+			if($item['item_id'] == $item_id)
+			{
+				return $line;
+			}
+		}
+
+		return -1;
+	}
 	public function get_item_id($line_to_get)
 	{
 		$items = $this->get_cart();

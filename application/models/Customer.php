@@ -380,13 +380,21 @@ class Customer extends Person
 		{
 			$this->db->select('COUNT(customers.person_id) as count');
 		}else{
-			$SELECT_SQL = '*, (
+			$SELECT_SQL = '*,( (
 				SELECT SUM(`sales_payments`.payment_amount)
 				FROM `'.$this->db->dbprefix('sales').'` AS `sales`
 				JOIN `'.$this->db->dbprefix('sales_payments').'` as `sales_payments`  ON `sales`.`sale_id` = `sales_payments`.`sale_id`
-				WHERE `sales`.`customer_id` = `customers`.`person_id` AND `sales`.due_status = true
+				WHERE `sales`.`customer_id` = `customers`.`person_id` AND `sales`.due_status = 1
 				GROUP BY `sales`.`customer_id`
-			)  AS total_due';
+			) -  IFNULL((
+				SELECT SUM(`sales_payments`.payment_amount)
+				FROM `'.$this->db->dbprefix('sales').'` AS `sales`
+				JOIN `'.$this->db->dbprefix('sales_payments').'` as `sales_payments`  ON `sales`.`sale_id` = `sales_payments`.`sale_id`
+				WHERE `sales`.`customer_id` = `customers`.`person_id` AND `sales`.due_status = 2
+				GROUP BY `sales`.`customer_id`
+				),0)
+			
+			) AS total_due';
 			$this->db->select($SELECT_SQL);
 		}
 
@@ -423,12 +431,30 @@ class Customer extends Person
      * Get total due of customer
      */
     public function get_total_due($customer_id){
-        $this->db->select("SUM(sales_payments.payment_amount) AS total");
+        /*$this->db->select("SUM(sales_payments.payment_amount) AS total");
 		$this->db->from('sales');
 		$this->db->join('sales_payments AS sales_payments', 'sales.sale_id = sales_payments.sale_id');
 		$this->db->where('sales.customer_id', $customer_id);
-		$this->db->where('sales.due_status', true);
-		$this->db->group_by('sales.customer_id');
+		$this->db->where('sales.due_status', 1);*/
+		$SELECT_SQL = '*,( (
+				SELECT SUM(`sales_payments`.payment_amount)
+				FROM `'.$this->db->dbprefix('sales').'` AS `sales`
+				JOIN `'.$this->db->dbprefix('sales_payments').'` as `sales_payments`  ON `sales`.`sale_id` = `sales_payments`.`sale_id`
+				WHERE `sales`.`customer_id` = '.$customer_id.' AND `sales`.due_status = 1
+				GROUP BY `sales`.`customer_id`
+			) -  IFNULL((
+				SELECT SUM(`sales_payments`.payment_amount)
+				FROM `'.$this->db->dbprefix('sales').'` AS `sales`
+				JOIN `'.$this->db->dbprefix('sales_payments').'` as `sales_payments`  ON `sales`.`sale_id` = `sales_payments`.`sale_id`
+				WHERE `sales`.`customer_id` =  '.$customer_id.' AND `sales`.due_status = 2
+				GROUP BY `sales`.`customer_id`
+				),0)
+			
+			) AS total';
+		$this->db->select($SELECT_SQL);
+		$this->db->from('sales');
+		$this->db->join('sales_payments AS sales_payments', 'sales.sale_id = sales_payments.sale_id');
+		$this->db->where('sales.customer_id', $customer_id);
         return $this->db->get()->row();
     }
 }

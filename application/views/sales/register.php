@@ -81,6 +81,7 @@ if(isset($success))
 
 	<?php $tabindex = 0; ?>
 
+	
 	<?php echo form_open($controller_name."/add", array('id'=>'add_item_form', 'class'=>'form-horizontal panel panel-default')); ?>
 		<div class="panel-body form-group">
 			<ul>
@@ -103,7 +104,7 @@ if(isset($success))
 				<!-- <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number'); ?></th> 
                 <th style="width: 15%;"><?php echo $this->lang->line('sales_item_number_instock'); ?></th>-->
 				<th style="width: 30%;"><?php echo $this->lang->line('sales_item_name'); ?> / <?php echo $this->lang->line('sales_item_number_instock'); ?></th>
-				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
+				<th style="width: 20%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
 				<th style="width: 15%;" class="hidden"><?php echo $this->lang->line('sales_discount'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_total'); ?></th>
@@ -151,8 +152,12 @@ if(isset($success))
 							?>
 								<!-- <td><?php echo $item['item_number']; ?></td> -->
 								<td style="align: center;">
-									<?php echo $item['name'] . ' '. implode(' ', array($item['attribute_values'], $item['attribute_dtvalues'])); ?> ( 									
-									<?php echo ($item['in_stock'] != 0) ?  to_quantity_decimals($item['in_stock']) : '<span class = "btn-danger btn-sm">' . $this->lang->line('sales_item_out_of_stock') . '</span>'; ?>)
+									<?php echo $item['name'] . ' '. implode(' ', array($item['attribute_values'], $item['attribute_dtvalues'])); ?>
+									<?php if($mode != 'pay_the_debt') { ?>
+									( 									
+									<?php echo ($item['in_stock'] != 0 ) ?  to_quantity_decimals($item['in_stock']) : '<span class = "btn-danger btn-sm">' . $this->lang->line('sales_item_out_of_stock') . '</span>'; ?>
+									)
+									<?php } ?>
 									<?php //if ($item['stock_type'] == '0'): echo '[' . to_quantity_decimals($item['in_stock']) . ' in ' . $item['stock_name'] . ']'; endif; ?>
 								</td>
 							<?php
@@ -361,6 +366,16 @@ if(isset($success))
 					<?php
 					}
 					?>
+					<?php
+					//if($total_due)					{
+					?>
+					<tr>
+						<th style='width: 55%;'>Công nợ</th>
+						<th style="width: 45%; text-align: right;"><?php echo to_currency($total_due); ?></th>
+					</tr>
+					<?php
+					//}
+					?>
 					<?php if($this->config->item('customer_reward_enable') == TRUE): ?>
 					<?php
 					if(!empty($customer_rewards))
@@ -378,10 +393,7 @@ if(isset($success))
 					}
 					?>
 					<?php endif; ?>
-					<tr>
-						<th style='width: 55%;'><?php echo $this->lang->line("sales_customer_total"); ?></th>
-						<th style="width: 45%; text-align: right;"><?php echo to_currency($customer_total); ?></th>
-					</tr>
+					
 					<?php
 					if(!empty($mailchimp_info))
 					{
@@ -398,11 +410,20 @@ if(isset($success))
 				<?php echo anchor($controller_name."/remove_customer", '<span class="glyphicon glyphicon-remove">&nbsp</span>' . $this->lang->line('common_remove').' '.$this->lang->line('customers_customer'),
 								array('class'=>'btn btn-danger btn-sm', 'id'=>'remove_customer_button', 'title'=>$this->lang->line('common_remove').' '.$this->lang->line('customers_customer'))); ?>
 				 <?php // echo form_checkbox(array('name'=>'due_status', 'id'=>'due_status', 'class'=>'hidden', 'value'=>1, 'checked'=>($due_status) ? 'checked' : '')); ?>
-				 <div class="custom-control custom-checkbox mr-sm-2">
+				 <?php if($mode != 'pay_the_debt') { ?>
+				<div class="custom-control custom-checkbox mr-sm-2">
 					<label class="custom-control-label" for="due_status">
 					<input type="checkbox" class="custom-control-input" id="due_status" name = 'due_status' <?php echo ($due_status)? "checked":"";?>>
 					   <?php echo $this->lang->line('sales_due_status'); ?></label>
 				</div>
+				 <?php }else{ /* ?>
+				<div class="custom-control custom-text mr-sm-2">
+					<label class="custom-control-label" for="pay_the_debt">
+				   <?php echo $this->lang->line('sales_cash'); ?></label>
+					<input type="text" class="form-control input-sm" id="pay_the_debt" name = 'pay_the_debt' />
+				</div>
+			 
+				 <?php */ } ?>
 			<?php
 			}
 			else
@@ -426,9 +447,9 @@ if(isset($success))
 
 		<?php
 		// Only show this part if there are Items already in the sale.
-		if(count($cart) > 0)
+		if(count($cart) > 0   )
 		{
-		?>
+ 		?>
 			<table class="sales_table_100" id="sale_totals">
 				<tr>
 					<th style="width: 55%;"><?php echo $this->lang->line('sales_quantity_of_items',$item_count); ?></th>
@@ -886,6 +907,9 @@ $(document).ready(function()
     $("#due_status").change(function(){
         change_due_status($(this).is(':checked'));
     });
+    /*$("#pay_the_debt").change(function(){
+        change_pay_the_debt($(this).val());
+    });*/
 
 	$("#cart_contents input").keypress(function(event)
 	{
@@ -987,10 +1011,6 @@ function check_payment_type()
 }
 
 function change_due_status(due_status){
-   /* var due_status = 'false';
-    if(_this.is(":checked")){
-        due_status = 'true';
-    }*/
     $.post("<?php echo site_url($controller_name."/set_price_all_items");?>", {'due_status': due_status })
     .done(function(response) {
         //kiểm tra response
@@ -998,7 +1018,16 @@ function change_due_status(due_status){
             location.href = response.url;
         }
     });
-    
+}
+function change_pay_the_debt(pay_the_debt){
+    $.post("<?php echo site_url($controller_name."/pay_the_debt");?>", {'pay_the_debt': pay_the_debt })
+    .done(function(response) {
+		console.log(response);
+        //kiểm tra response
+        if(typeof response.url !== 'undefined' && response.url !== ''){
+            //location.href = response.url;
+        }
+    });
 }
 </script>
 

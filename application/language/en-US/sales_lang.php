@@ -1,5 +1,6 @@
 <?php 
 
+$lang["sales_pay_the_debt"] = "Thanh toán nợ";
 $lang["customers_available_points"] = "Available Points";
 $lang["rewards_package"] = "Rewards";
 $lang["rewards_remaining_balance"] = "Reward Points remaining value is ";

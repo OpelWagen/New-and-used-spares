@@ -350,7 +350,6 @@ class Item extends CI_Model
 		{
 			return $query->row();
 		}
-
 		return '';
 	}
 

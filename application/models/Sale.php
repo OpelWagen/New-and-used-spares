@@ -10,6 +10,9 @@ define('SALE_TYPE_INVOICE', 1);
 define('SALE_TYPE_WORK_ORDER', 2);
 define('SALE_TYPE_QUOTE', 3);
 define('SALE_TYPE_RETURN', 4);
+define('SALE_PAY_THE_DEBT', 5);
+
+define('ITEM_PAY_THE_DEBT', '8');
 
 define('PERCENT', 0);
 define('FIXED', 1);
@@ -1445,11 +1448,12 @@ class Sale extends CI_Model
 		$this->db->from('sales');
         $this->db->where('sale_id', $sale_id);
         $due_status = $this->db->get()->row()->due_status;
-        if($due_status){
+		$this->sale_lib->set_due_status($due_status);
+        /*if($due_status){
             $this->sale_lib->set_due_status(true);
         } else {
             $this->sale_lib->set_due_status(false);
-        }
+        }*/
 		return $due_status;
 	}
 

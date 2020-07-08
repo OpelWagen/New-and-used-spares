@@ -154,7 +154,6 @@ class Sales extends Secure_Controller
 	{
 		$mode = $this->input->post('mode');
 		$this->sale_lib->set_mode($mode);
-
 		if($mode == 'sale')
 		{
 			$this->sale_lib->set_sale_type(SALE_TYPE_POS);
@@ -199,8 +198,31 @@ class Sales extends Secure_Controller
 		{
 			$this->sale_lib->set_sale_location($stock_location);
 		}
+		$item_id = ITEM_PAY_THE_DEBT ;
+		if($mode == 'pay_the_debt')
+		{
+			$this->sale_lib->set_sale_type(SALE_PAY_THE_DEBT);
+			$this->sale_lib->clear_all();
+			$item_location = $this->sale_lib->get_sale_location();
+			if(!$this->sale_lib->add_item($item_id, 1, $item_location ))
+			{
+				$data['error'] = $this->lang->line('sales_unable_to_add_item');
+			}
 
-		$this->_reload();
+			$this->sale_lib->set_due_status(2);
+			$this->Sale->update_due_status($this->sale_lib->get_sale_id(), 2);		
+		}else{
+			$this->sale_lib->set_due_status(0);
+			$this->Sale->update_due_status($this->sale_lib->get_sale_id(), 0);
+			$line = $this->sale_lib->get_line($item_id);
+			if($line!=-1)
+				$this->sale_lib->delete_item($line);
+		}
+		if(isset($data)){
+			$this->_reload($data); 
+		}else{
+			$this->_reload();
+		}
 	}
 
 	public function change_register_mode($sale_type)
@@ -212,6 +234,10 @@ class Sales extends Secure_Controller
 		elseif($sale_type == SALE_TYPE_QUOTE)
 		{
 			$this->sale_lib->set_mode('sale_quote');
+		}
+		elseif($sale_type == SALE_PAY_THE_DEBT)
+		{
+			$this->sale_lib->set_mode('pay_the_debt');
 		}
 		elseif($sale_type == SALE_TYPE_WORK_ORDER)
 		{
@@ -495,6 +521,37 @@ class Sales extends Secure_Controller
 		$this->_reload($data);
     }
     
+    public function pay_the_debt(){
+        $data = array();
+        $pay_the_debt =  $this->input->post('pay_the_debt');
+        /*foreach($items as $key => $item)
+		{
+            $line = &$items[$key];
+            $item_source = $this->Item->get_info($item['item_id']);
+			$new_price = (float)$item_source->unit_price; //$item['cost_price'] ;
+            if( $due_status == 'true' ){
+				$new_price *= $due_rate;
+                $this->sale_lib->set_due_status(true);
+                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), true);
+            } else {
+                $this->sale_lib->set_due_status(false);
+                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), false);
+            }
+            $quantity = parse_decimals($item['quantity']);
+            $discount = parse_decimals($item['discount']);
+			$line['price'] = $new_price;
+			$line['total'] = $this->sale_lib->get_item_total(parse_decimals($item['quantity']), $new_price,0, $line['discount_type']);
+			$line['discounted_total'] = $this->sale_lib->get_item_total(parse_decimals($item['quantity']), $new_price ,0, $line['discount_type'],TRUE);
+        }*/
+		$line['price'] = (float)$pay_the_debt;
+		$line['total'] = (float)$pay_the_debt;
+      // $this->sale_lib->set_cart($items);
+       header('Content-Type: application/json');
+        echo json_encode(array(
+            'url' => site_url('sales'),
+            'debug' => $pay_the_debt
+        )); 
+    }
     public function set_price_all_items(){
         $data = array();
         $items = $this->sale_lib->get_cart();
@@ -508,11 +565,12 @@ class Sales extends Secure_Controller
             if( $due_status == 'true' ){
 				$new_price *= $due_rate;
                 $this->sale_lib->set_due_status(true);
-                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), true);
+                $this->Sale->update_due_status($this->sale_lib->get_sale_id(), 1);
             } else {
                 $this->sale_lib->set_due_status(false);
                 $this->Sale->update_due_status($this->sale_lib->get_sale_id(), false);
             }
+
             $quantity = parse_decimals($item['quantity']);
             $discount = parse_decimals($item['discount']);
 			$line['price'] = $new_price;
@@ -835,6 +893,7 @@ class Sales extends Secure_Controller
 			{
 				$data['barcode'] = $this->barcode_lib->generate_receipt_barcode($data['sale_id']);
 				$this->load->view('sales/receipt', $data);
+				$this->sale_lib->clear_mode();
 				$this->sale_lib->clear_all();
 			}
 		}
@@ -1046,11 +1105,15 @@ class Sales extends Secure_Controller
 		$data['barcode'] = $this->barcode_lib->generate_receipt_barcode($data['sale_id']);
 		$data['print_after_sale'] = FALSE;
 		$data['price_work_orders'] = FALSE;
-
 		if($this->sale_lib->get_mode() == 'sale_invoice')
 		{
 			$data['mode_label'] = $this->lang->line('sales_invoice');
 			$data['customer_required'] = $this->lang->line('sales_customer_required');
+		}
+		elseif($this->sale_lib->get_mode() == 'sale_pay_the_debt')
+		{
+			$data['mode_label'] = $this->lang->line('sales_pay_the_debt');
+			$data['customer_required'] = '';
 		}
 		elseif($this->sale_lib->get_mode() == 'sale_quote')
 		{
@@ -1131,6 +1194,10 @@ class Sales extends Secure_Controller
 		$data['non_cash_total'] = $totals['total'];
 		$data['cash_amount_due'] = $totals['cash_amount_due'];
 		$data['non_cash_amount_due'] = $totals['amount_due'];
+		//log_message('error',$data['customer_id']);
+		$data['total_due'] = 0 ;
+		if(isset($data['customer_id']))
+			$data['total_due'] = $this->Customer->get_total_due($data['customer_id'])->total;
 
 		if($data['cash_rounding'])
 		{
@@ -1172,11 +1239,15 @@ class Sales extends Secure_Controller
 
 		$data['quote_number'] = $this->sale_lib->get_quote_number();
 		$data['work_order_number'] = $this->sale_lib->get_work_order_number();
-
 		if($this->sale_lib->get_mode() == 'sale_invoice')
 		{
 			$data['mode_label'] = $this->lang->line('sales_invoice');
 			$data['customer_required'] = $this->lang->line('sales_customer_required');
+		}
+		elseif($this->sale_lib->get_mode() == 'pay_the_debt')
+		{
+			$data['mode_label'] = $this->lang->line('sales_pay_the_debt');
+			$data['customer_required'] = '';
 		}
 		elseif($this->sale_lib->get_mode() == 'sale_quote')
 		{
