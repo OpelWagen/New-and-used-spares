@@ -93,3 +93,7 @@ ERROR - 2020-07-09 23:25:51 --> Could not find the language line "config_currenc
 ERROR - 2020-07-09 23:25:51 --> Could not find the language line "config_invoice_type (TBD)"
 ERROR - 2020-07-09 23:25:51 --> Could not find the language line "config_ospos_info (TBD)"
 ERROR - 2020-07-09 23:25:51 --> Severity: Warning --> fileperms(): stat failed for ../public/uploads/item_pics/ C:\wamp64\www\thannong\application\views\configs\system_info.php 80
+ERROR - 2020-07-09 23:28:06 --> Could not find the language line "module_cashups (TBD)"
+ERROR - 2020-07-09 23:28:06 --> Could not find the language line "module_cashups (TBD)"
+ERROR - 2020-07-09 23:28:06 --> Could not find the language line "reports_sales_taxes (TBD)"
+ERROR - 2020-07-09 23:28:06 --> Could not find the language line "reports_sales_taxes (TBD)"
