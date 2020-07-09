@@ -25,7 +25,7 @@
 			?>
 
 			<!--<div id="company_address"><?php echo nl2br($this->config->item('address')); ?></div>-->
-			<div id="company_phone"><?php echo $this->config->item('phone'); ?></div>
+			
 			<div id="sale_receipt"><?php echo $this->lang->line('sales_receipt'); ?></div>
 			<div id="sale_time"><?php echo $transaction_time ?></div>
 		</div>
@@ -52,6 +52,7 @@
 			?>
 
 			<div id="employee"><?php echo $this->lang->line('employees_employee').": ".$employee; ?></div>
+			<div id="company_phone"><?php echo $this->config->item('phone'); ?></div>
 		</div>
 	</div>
 
