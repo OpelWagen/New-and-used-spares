@@ -52,7 +52,7 @@
 			?>
 
 			<div id="employee"><?php echo $this->lang->line('employees_employee').": ".$employee; ?></div>
-			<div id="company_phone"><?php echo $this->config->item('phone'); ?></div>
+			<div id="company_phone">Số điện thoại: <?php echo $this->config->item('phone'); ?></div>
 		</div>
 	</div>
 
