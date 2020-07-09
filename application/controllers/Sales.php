@@ -891,6 +891,12 @@ class Sales extends Secure_Controller
 			}
 			else
 			{
+				$due = $this->Customer->get_total_due($customer_id);
+				if(!empty($due))
+					$data['total_due'] = $this->Customer->get_total_due($customer_id)->total;
+				else {
+					$data['total_due'] = 0;
+				}
 				$data['barcode'] = $this->barcode_lib->generate_receipt_barcode($data['sale_id']);
 				$this->load->view('sales/receipt', $data);
 				$this->sale_lib->clear_mode();
@@ -1138,6 +1144,12 @@ class Sales extends Secure_Controller
 
 		$invoice_type = $this->config->item('invoice_type');
 
+		$due = $this->Customer->get_total_due($data['customer_id']);
+		if(!empty($due))
+			$data['total_due'] = $this->Customer->get_total_due($data['customer_id'])->total;
+		else {
+			$data['total_due'] = 0;
+		}
 		$data['invoice_view'] = $invoice_type;
 		return $this->xss_clean($data);
     }
